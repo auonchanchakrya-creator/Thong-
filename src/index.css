@@ -1,0 +1,47 @@
+@import "tailwindcss";
+
+/* Khmer OS Battambang Web Font Definition */
+@font-face {
+  font-family: 'Khmer OS Battambang';
+  src: local('Khmer OS Battambang'),
+       url('/fonts/KhmerOSBattambang.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Khmer OS Battambang';
+  src: local('Khmer OS Battambang Bold'),
+       url('/fonts/KhmerOSBattambang-Bold.ttf') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Global Font Application as specified */
+html,
+body,
+button,
+input,
+select,
+textarea,
+table,
+* {
+  font-family: 'Khmer OS Battambang', sans-serif;
+}
+
+@layer base {
+  body {
+    font-family: 'Khmer OS Battambang', sans-serif;
+    line-height: 1.65;
+    letter-spacing: 0.015em;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* Ensure Khmer vowels, sub-consonants, and diacritics don't clip */
+  button, input, select, textarea {
+    line-height: 1.5;
+  }
+}

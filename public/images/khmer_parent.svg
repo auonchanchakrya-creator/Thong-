@@ -1,0 +1,75 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="100%" height="100%">
+  <defs>
+    <linearGradient id="parentBg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0d9488"/>
+      <stop offset="100%" stop-color="#14b8a6"/>
+    </linearGradient>
+    <linearGradient id="khmerParentSkin" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#dca06d"/>
+      <stop offset="100%" stop-color="#c88752"/>
+    </linearGradient>
+    <linearGradient id="blouseGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#0284c7"/>
+      <stop offset="100%" stop-color="#38bdf8"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Background Circle -->
+  <circle cx="100" cy="100" r="100" fill="url(#parentBg)"/>
+  <circle cx="100" cy="100" r="95" fill="none" stroke="#5eead4" stroke-width="2" opacity="0.4"/>
+
+  <!-- Lotus / Peaceful background glow -->
+  <g opacity="0.12" fill="#ffffff">
+    <ellipse cx="45" cy="50" rx="10" ry="16" transform="rotate(-30 45 50)"/>
+    <ellipse cx="155" cy="50" rx="10" ry="16" transform="rotate(30 155 50)"/>
+  </g>
+
+  <!-- Shoulders & Cambodian Blouse / Traditional Silk Neckline -->
+  <path d="M 32 200 C 32 156, 65 142, 100 142 C 135 142, 168 156, 168 200 Z" fill="#0f766e"/>
+  <!-- Elegant V-neck Silk Border with Golden Embroidery -->
+  <path d="M 80 146 L 100 174 L 120 146 L 112 143 L 100 162 L 88 143 Z" fill="#facc15"/>
+  <circle cx="100" cy="178" r="3.5" fill="#facc15"/>
+
+  <!-- Neck -->
+  <rect x="87" y="112" width="26" height="34" rx="4" fill="#ba7945"/>
+
+  <!-- Face Contour -->
+  <ellipse cx="100" cy="92" rx="35" ry="39" fill="url(#khmerParentSkin)"/>
+
+  <!-- Ears & Pearl/Gold Earrings -->
+  <ellipse cx="64" cy="94" rx="5.5" ry="9" fill="#c88752"/>
+  <circle cx="64" cy="98" r="3" fill="#fef08a"/>
+  <ellipse cx="136" cy="94" rx="5.5" ry="9" fill="#c88752"/>
+  <circle cx="136" cy="98" r="3" fill="#fef08a"/>
+
+  <!-- Eyes - Gentle, caring parent's eyes -->
+  <ellipse cx="85" cy="89" rx="7.5" ry="5.5" fill="#ffffff"/>
+  <circle cx="86" cy="89" r="4.2" fill="#18181b"/>
+  <circle cx="84.5" cy="87.5" r="1.5" fill="#ffffff"/>
+  <path d="M 77 85 Q 85 81 93 85" stroke="#1f2937" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+
+  <ellipse cx="115" cy="89" rx="7.5" ry="5.5" fill="#ffffff"/>
+  <circle cx="114" cy="89" r="4.2" fill="#18181b"/>
+  <circle cx="112.5" cy="87.5" r="1.5" fill="#ffffff"/>
+  <path d="M 107 85 Q 115 81 123 85" stroke="#1f2937" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+
+  <!-- Eyebrows -->
+  <path d="M 75 79 Q 85 75 94 80" stroke="#18181b" stroke-width="2.8" stroke-linecap="round" fill="none"/>
+  <path d="M 106 80 Q 115 75 125 79" stroke="#18181b" stroke-width="2.8" stroke-linecap="round" fill="none"/>
+
+  <!-- Delicate Southeast Asian nose -->
+  <path d="M 100 86 Q 98 97 95 101 Q 100 104 105 101 Q 102 97 100 86" fill="#ba7945"/>
+
+  <!-- Warm Caring Smile -->
+  <path d="M 88 114 Q 100 124 112 114" stroke="#9f1239" stroke-width="2.8" stroke-linecap="round" fill="#fb7185"/>
+  <path d="M 91 114 Q 100 118 109 114" fill="#ffffff"/>
+
+  <!-- Cheeks Blush -->
+  <circle cx="78" cy="101" r="6" fill="#f43f5e" opacity="0.2"/>
+  <circle cx="122" cy="101" r="6" fill="#f43f5e" opacity="0.2"/>
+
+  <!-- Flowing Black Hair with soft waves -->
+  <path d="M 64 88 C 62 48, 76 38, 100 38 C 124 38, 138 48, 136 88 C 142 120, 144 145, 142 155 C 137 140, 134 110, 134 85 C 134 60, 120 52, 100 52 C 80 52, 66 60, 66 85 C 66 110, 63 140, 58 155 C 56 145, 58 120, 64 88 Z" fill="#09090b"/>
+  <!-- Delicate side hair accent -->
+  <path d="M 67 80 Q 72 105 76 120" stroke="#09090b" stroke-width="3" stroke-linecap="round" fill="none"/>
+</svg>

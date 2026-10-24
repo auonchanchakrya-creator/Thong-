@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="100%" height="100%">
+  <defs>
+    <linearGradient id="parent2Bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#4338ca"/>
+      <stop offset="100%" stop-color="#6366f1"/>
+    </linearGradient>
+    <linearGradient id="khmerFatherSkin" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#cf9058"/>
+      <stop offset="100%" stop-color="#b87742"/>
+    </linearGradient>
+  </defs>
+
+  <circle cx="100" cy="100" r="100" fill="url(#parent2Bg)"/>
+  <circle cx="100" cy="100" r="95" fill="none" stroke="#a5b4fc" stroke-width="2" opacity="0.4"/>
+
+  <!-- Shoulders with Smart Casual Polo Shirt -->
+  <path d="M 30 200 C 30 152, 60 140, 100 140 C 140 140, 170 152, 170 200 Z" fill="#312e81"/>
+  <!-- Polo Collar -->
+  <path d="M 78 140 L 100 170 L 122 140 Z" fill="#4338ca"/>
+  <path d="M 85 140 L 100 162 L 115 140 Z" fill="#ffffff"/>
+  <circle cx="100" cy="178" r="2.5" fill="#e0e7ff"/>
+
+  <!-- Neck -->
+  <rect x="85" y="110" width="30" height="36" rx="4" fill="#a66835"/>
+
+  <!-- Face Contour -->
+  <ellipse cx="100" cy="90" rx="36" ry="42" fill="url(#khmerFatherSkin)"/>
+
+  <!-- Ears -->
+  <ellipse cx="63" cy="90" rx="6" ry="11" fill="#b87742"/>
+  <ellipse cx="137" cy="90" rx="6" ry="11" fill="#b87742"/>
+
+  <!-- Eyes - Warm, intelligent, caring father -->
+  <ellipse cx="85" cy="87" rx="7.5" ry="5" fill="#ffffff"/>
+  <circle cx="86" cy="87" r="4" fill="#18181b"/>
+  <circle cx="84.5" cy="85.5" r="1.5" fill="#ffffff"/>
+  <path d="M 75 85 Q 85 81 94 85" stroke="#1f2937" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+
+  <ellipse cx="115" cy="87" rx="7.5" ry="5" fill="#ffffff"/>
+  <circle cx="114" cy="87" r="4" fill="#18181b"/>
+  <circle cx="112.5" cy="85.5" r="1.5" fill="#ffffff"/>
+  <path d="M 106 85 Q 115 81 125 85" stroke="#1f2937" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+
+  <!-- Eyebrows -->
+  <path d="M 74 77 Q 84 73 95 78" stroke="#09090b" stroke-width="3.5" stroke-linecap="round" fill="none"/>
+  <path d="M 105 78 Q 116 73 126 77" stroke="#09090b" stroke-width="3.5" stroke-linecap="round" fill="none"/>
+
+  <!-- Nose -->
+  <path d="M 100 81 Q 97 97 94 101 Q 100 105 106 101 Q 103 97 100 81" fill="#a66835"/>
+
+  <!-- Friendly Smile -->
+  <path d="M 87 114 Q 100 126 113 114" stroke="#881337" stroke-width="3" stroke-linecap="round" fill="#e11d48"/>
+  <path d="M 89 114 Q 100 119 111 114" fill="#ffffff"/>
+
+  <!-- Modern, stylish hair -->
+  <path d="M 62 76 C 60 44, 76 34, 100 34 C 124 34, 140 44, 138 76 C 132 54, 118 46, 100 46 C 80 46, 68 54, 62 76 Z" fill="#09090b"/>
+</svg>

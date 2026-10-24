@@ -1,0 +1,8 @@
+{
+  "name": "Remix SchoolRoutAI",
+  "description": "Complete School Transportation Management System with Admin, Driver, and Parent portals, live tracking, routes, students, and safety notifications.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
