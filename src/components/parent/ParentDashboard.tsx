@@ -60,28 +60,31 @@ export function ParentDashboard({ onNavigate }: ParentDashboardProps) {
   });
 
   return (
-    <div className="space-y-6 pb-12">
+    <div className="space-y-5 sm:space-y-6 pb-12 w-full max-w-full overflow-hidden">
       {/* Top Header & Date / Live Data badge */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 sm:gap-4">
         <div>
-          <h2 className="text-3xl sm:text-4xl font-black text-slate-900 tracking-tight">
+          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black text-slate-900 tracking-tight break-words">
             {language === 'km' ? 'ផ្ទាំងគ្រប់គ្រងអាណាព្យាបាល' : 'Parent Dashboard'}
           </h2>
-          <p className="text-base sm:text-lg text-slate-600 mt-1 font-medium">
+          <p className="text-sm sm:text-base lg:text-lg text-slate-600 mt-0.5 sm:mt-1 font-medium leading-relaxed">
             {language === 'km' 
               ? 'សូមស្វាគមន៍មកកាន់ SchoolRoutAI! តាមដានការធ្វើដំណើររបស់កូនលោកអ្នកដោយផ្ទាល់។' 
               : 'Welcome back, Sokha Dara! Track your child\'s school transportation and stay updated.'}
           </p>
         </div>
 
-        <div className="flex items-center gap-3 self-start sm:self-auto">
-          <div className="bg-white border border-slate-200 px-4 py-2.5 rounded-xl text-sm sm:text-base font-bold text-slate-800 flex items-center gap-2.5 shadow-xs min-h-[46px]">
-            <Calendar className="w-5 h-5 text-blue-600 shrink-0" />
-            <span>{language === 'km' ? 'ថ្ងៃព្រហស្បតិ៍ ទី១៦ ខែតុលា ឆ្នាំ២០២៥' : 'Thu, Oct 16, 2025'}</span>
-            <ChevronDown className="w-4 h-4 text-slate-400" />
+        <div className="flex flex-wrap items-center gap-2 sm:gap-3 w-full sm:w-auto">
+          <div className="bg-white border border-slate-200 px-3.5 py-2 rounded-xl text-xs sm:text-sm font-bold text-slate-800 flex items-center gap-2 shadow-xs min-h-[42px] flex-1 sm:flex-initial justify-between sm:justify-start">
+            <div className="flex items-center gap-2">
+              <Calendar className="w-4 h-4 text-blue-600 shrink-0" />
+              <span className="sm:hidden">{language === 'km' ? '១៦ តុលា ២០២៥' : 'Oct 16, 2025'}</span>
+              <span className="hidden sm:inline">{language === 'km' ? 'ថ្ងៃព្រហស្បតិ៍ ទី១៦ ខែតុលា ឆ្នាំ២០២៥' : 'Thu, Oct 16, 2025'}</span>
+            </div>
+            <ChevronDown className="w-3.5 h-3.5 text-slate-400 shrink-0" />
           </div>
-          <span className="px-4 py-2.5 rounded-xl bg-emerald-100 text-emerald-800 text-sm font-bold uppercase tracking-wide flex items-center gap-2 shadow-xs min-h-[46px]">
-            <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></span> {language === 'km' ? 'ទិន្នន័យផ្ទាល់' : 'Live Data'}
+          <span className="px-3.5 py-2 rounded-xl bg-emerald-100 text-emerald-800 text-xs sm:text-sm font-bold uppercase tracking-wide flex items-center gap-2 shadow-xs min-h-[42px]">
+            <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span> {language === 'km' ? 'ទិន្នន័យផ្ទាល់' : 'Live Data'}
           </span>
         </div>
       </div>
@@ -90,63 +93,71 @@ export function ParentDashboard({ onNavigate }: ParentDashboardProps) {
       <ParentEmergencyAlertBanner student={selectedChild} />
 
       {actionMessage && (
-        <div className="bg-emerald-50 border border-emerald-200 text-emerald-900 text-sm sm:text-base px-5 py-3.5 rounded-xl font-bold flex items-center gap-2.5 animate-in fade-in duration-200">
+        <div className="bg-emerald-50 border border-emerald-200 text-emerald-900 text-sm sm:text-base px-4 py-3 rounded-xl font-bold flex items-center gap-2.5 animate-in fade-in duration-200">
           <CheckCircle2 className="w-5 h-5 text-emerald-600 shrink-0" /> {actionMessage}
         </div>
       )}
 
-      {/* 4 Top Summary Cards */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
+      {/* 4 Top Summary Cards - Stack vertically on mobile, 2 col on tablet, 4 col on desktop */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
         {/* My Children */}
         <div className="bg-white p-4 sm:p-5 rounded-2xl border border-slate-200/90 shadow-xs">
-          <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center mb-2.5 sm:mb-3 shrink-0">
-            <GraduationCap className="w-5 h-5 sm:w-6 sm:h-6" />
+          <div className="flex items-center justify-between mb-2 sm:mb-3">
+            <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center shrink-0">
+              <GraduationCap className="w-5 h-5 sm:w-6 sm:h-6" />
+            </div>
+            <span className="text-xs text-slate-500 font-semibold">
+              {language === 'km' ? 'សិស្សក្នុងគណនី' : '2 children linked'}
+            </span>
           </div>
-          <p className="text-xs sm:text-sm text-slate-600 font-semibold truncate">{t('parentPortal.myChildren')}</p>
-          <h3 className="text-2xl sm:text-3xl font-black text-slate-900 mt-1 truncate">{formatNumber(myChildren.length)}</h3>
-          <p className="text-xs text-slate-500 font-medium mt-0.5 sm:mt-1 truncate">
-            {language === 'km' ? 'សិស្សក្នុងគណនី' : '2 children linked'}
-          </p>
+          <p className="text-sm sm:text-base text-slate-600 font-semibold leading-snug">{t('parentPortal.myChildren')}</p>
+          <h3 className="text-2xl sm:text-3xl font-black text-slate-900 mt-1">{formatNumber(myChildren.length)}</h3>
         </div>
 
         {/* Assigned Bus */}
         <div className="bg-white p-4 sm:p-5 rounded-2xl border border-slate-200/90 shadow-xs">
-          <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center mb-2.5 sm:mb-3 shrink-0">
-            <Bus className="w-5 h-5 sm:w-6 sm:h-6" />
+          <div className="flex items-center justify-between mb-2 sm:mb-3">
+            <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center shrink-0">
+              <Bus className="w-5 h-5 sm:w-6 sm:h-6" />
+            </div>
+            <span className="text-xs text-slate-500 font-semibold">
+              {language === 'km' ? 'ITC → ទួលគោក' : 'ITC → Toul Kork'}
+            </span>
           </div>
-          <p className="text-xs sm:text-sm text-slate-600 font-semibold truncate">{t('students.bus')}</p>
-          <h3 className="text-2xl sm:text-3xl font-black text-slate-900 mt-1 truncate">{bus?.busNumber || 'Bus 03'}</h3>
-          <p className="text-xs text-slate-500 font-medium mt-0.5 sm:mt-1 truncate">
-            {language === 'km' ? 'វិទ្យាស្ថានតិចណូ ITC → ទួលគោក' : 'ITC School → Royal School'}
-          </p>
+          <p className="text-sm sm:text-base text-slate-600 font-semibold leading-snug">{t('students.bus')}</p>
+          <h3 className="text-2xl sm:text-3xl font-black text-slate-900 mt-1">{bus?.busNumber || 'Bus 03'}</h3>
         </div>
 
         {/* Next Pickup or Picked Up status */}
         <div className="bg-white p-4 sm:p-5 rounded-2xl border border-slate-200/90 shadow-xs">
-          <div className={`w-10 h-10 sm:w-11 sm:h-11 rounded-xl ${selectedChild?.status === 'picked_up' ? 'bg-emerald-50 text-emerald-600' : 'bg-amber-50 text-amber-600'} flex items-center justify-center mb-2.5 sm:mb-3 shrink-0`}>
-            {selectedChild?.status === 'picked_up' ? <CheckCircle2 className="w-5 h-5 sm:w-6 sm:h-6" /> : <Clock className="w-5 h-5 sm:w-6 sm:h-6" />}
+          <div className="flex items-center justify-between mb-2 sm:mb-3">
+            <div className={`w-10 h-10 sm:w-11 sm:h-11 rounded-xl ${selectedChild?.status === 'picked_up' ? 'bg-emerald-50 text-emerald-600' : 'bg-amber-50 text-amber-600'} flex items-center justify-center shrink-0`}>
+              {selectedChild?.status === 'picked_up' ? <CheckCircle2 className="w-5 h-5 sm:w-6 sm:h-6" /> : <Clock className="w-5 h-5 sm:w-6 sm:h-6" />}
+            </div>
+            <span className="text-xs text-slate-500 font-semibold">
+              {selectedChild?.name} ({selectedChild?.status === 'picked_up' ? (language === 'km' ? 'នៅលើរថយន្ត' : 'Onboard') : (language === 'km' ? 'នៅផ្ទះ' : 'At Home')})
+            </span>
           </div>
-          <p className="text-xs sm:text-sm text-slate-600 font-semibold truncate">
+          <p className="text-sm sm:text-base text-slate-600 font-semibold leading-snug">
             {selectedChild?.status === 'picked_up' 
               ? (language === 'km' ? 'បានឡើងរថយន្តនៅម៉ោង' : 'Picked Up At') 
               : (language === 'km' ? 'ម៉ោងទទួលបន្ទាប់' : 'Next Pickup')}
           </p>
-          <h3 className={`text-2xl sm:text-3xl font-black mt-1 truncate ${selectedChild?.status === 'picked_up' ? 'text-emerald-700' : 'text-slate-900'}`}>
+          <h3 className={`text-2xl sm:text-3xl font-black mt-1 ${selectedChild?.status === 'picked_up' ? 'text-emerald-700' : 'text-slate-900'}`}>
             {selectedChild?.status === 'picked_up' ? (selectedChild.pickedUpAt || '07:35 AM') : '07:30 AM'}
           </h3>
-          <p className="text-xs text-slate-500 font-medium mt-0.5 sm:mt-1 truncate">
-            {selectedChild?.name} ({selectedChild?.status === 'picked_up' ? (language === 'km' ? 'នៅលើរថយន្ត' : 'Onboard') : (language === 'km' ? 'នៅផ្ទះ' : 'At Home')})
-          </p>
         </div>
 
         {/* Latest Trip Status */}
         <div className="bg-white p-4 sm:p-5 rounded-2xl border border-slate-200/90 shadow-xs">
-          <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center mb-2.5 sm:mb-3 shrink-0">
-            <CheckCircle2 className="w-5 h-5 sm:w-6 sm:h-6" />
+          <div className="flex items-center justify-between mb-2 sm:mb-3">
+            <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center shrink-0">
+              <CheckCircle2 className="w-5 h-5 sm:w-6 sm:h-6" />
+            </div>
+            <span className="text-xs text-slate-500 font-semibold">{bus?.busNumber} • 45%</span>
           </div>
-          <p className="text-xs sm:text-sm text-slate-600 font-semibold truncate">{t('parentPortal.busStatus')}</p>
-          <h3 className="text-2xl sm:text-3xl font-black text-emerald-700 mt-1 truncate">{t('routes.inProgress')}</h3>
-          <p className="text-xs text-slate-500 font-medium mt-0.5 sm:mt-1 truncate">{bus?.busNumber} • 45% {language === 'km' ? 'បានបញ្ចប់' : 'completed'}</p>
+          <p className="text-sm sm:text-base text-slate-600 font-semibold leading-snug">{t('parentPortal.busStatus')}</p>
+          <h3 className="text-2xl sm:text-3xl font-black text-emerald-700 mt-1">{t('routes.inProgress')}</h3>
         </div>
       </div>
 
@@ -154,12 +165,12 @@ export function ParentDashboard({ onNavigate }: ParentDashboardProps) {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-5 sm:gap-6">
         {/* Left: Map + Child Selector */}
         <div className="lg:col-span-2 space-y-4">
-          <div className="bg-white p-3.5 sm:p-4 rounded-2xl border border-slate-200 shadow-xs flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-            <div className="flex items-center gap-3">
+          <div className="bg-white p-3 sm:p-4 rounded-2xl border border-slate-200 shadow-xs flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 sm:gap-3">
+            <div className="flex items-center gap-2 w-full sm:w-auto">
               <select
                 value={selectedChildId}
                 onChange={e => setSelectedChildId(e.target.value)}
-                className="bg-slate-50 border border-slate-200 rounded-xl px-4 py-2.5 text-sm sm:text-base font-bold text-slate-900 focus:outline-none min-h-[46px]"
+                className="w-full sm:w-auto bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-sm sm:text-base font-bold text-slate-900 focus:outline-none min-h-[46px]"
               >
                 {myChildren.map(c => <option key={c.id} value={c.id}>{c.name} ({c.id})</option>)}
               </select>
@@ -167,7 +178,7 @@ export function ParentDashboard({ onNavigate }: ParentDashboardProps) {
             <button
               onClick={handleRefresh}
               disabled={refreshing}
-              className="bg-slate-50 hover:bg-slate-100 text-slate-800 font-bold px-4 py-2.5 min-h-[46px] rounded-xl text-sm sm:text-base flex items-center justify-center gap-2 border border-slate-200 transition-colors self-start sm:self-auto cursor-pointer"
+              className="w-full sm:w-auto bg-slate-50 hover:bg-slate-100 text-slate-800 font-bold px-4 py-2.5 min-h-[46px] rounded-xl text-sm sm:text-base flex items-center justify-center gap-2 border border-slate-200 transition-colors cursor-pointer"
             >
               <RefreshCw className={`w-4 h-4 ${refreshing ? 'animate-spin' : ''}`} /> 
               <span>{language === 'km' ? 'ធ្វើបច្ចុប្បន្នភាពទីតាំង' : 'Refresh Location'}</span>

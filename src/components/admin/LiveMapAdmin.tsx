@@ -80,39 +80,39 @@ export function LiveMapAdmin() {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-5 sm:space-y-6 pb-12 w-full max-w-full overflow-hidden">
       {/* Top Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 sm:gap-4">
         <div>
-          <h2 className="text-2xl font-bold text-slate-900 tracking-tight flex items-center gap-2.5">
-            <Radio className="w-7 h-7 text-teal-600 animate-pulse" />
-            {language === 'km' ? 'ប្រព័ន្ធតាមដានរថយន្តសាលាផ្ទាល់ (GPS Fleet Radar)' : 'Real GPS Live Bus Tracking System'}
+          <h2 className="text-xl sm:text-2xl lg:text-3xl font-black text-slate-900 tracking-tight flex items-center gap-2 flex-wrap">
+            <Radio className="w-6 h-6 text-teal-600 animate-pulse shrink-0" />
+            <span className="break-words">{language === 'km' ? 'ប្រព័ន្ធតាមដានរថយន្តសាលាផ្ទាល់' : 'Real GPS Live Bus Tracking System'}</span>
           </h2>
-          <p className="text-xs sm:text-sm text-slate-500 mt-0.5">
+          <p className="text-xs sm:text-sm text-slate-600 mt-0.5 leading-relaxed">
             {language === 'km' 
               ? 'ត្រួតពិនិត្យទីតាំងជាក់ស្តែងរបស់រថយន្តសាលា ល្បឿន និងស្ថានភាពចរាចរណ៍នៅរាជធានីភ្នំពេញ' 
               : 'Authorized real-time device GPS coordinates, speeds, and transit tracking across Phnom Penh, Cambodia'}
           </p>
         </div>
 
-        <div className="flex items-center gap-2.5 flex-wrap">
-          <div className="px-3.5 py-1.5 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs font-bold flex items-center gap-2 shadow-xs">
-            <Activity className="w-4 h-4 text-emerald-600 animate-pulse" />
+        <div className="flex items-center gap-2 flex-wrap w-full sm:w-auto">
+          <div className="px-3 py-1.5 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs font-bold flex items-center gap-2 shadow-xs">
+            <Activity className="w-3.5 h-3.5 text-emerald-600 animate-pulse shrink-0" />
             <span>
               {formatNumber(activeBuses.length)} / {formatNumber(totalBuses)} {language === 'km' ? 'រថយន្តសកម្ម' : 'Buses Live'}
             </span>
           </div>
 
-          <div className="px-3.5 py-1.5 rounded-xl bg-white border border-slate-200 text-slate-700 text-xs font-bold flex items-center gap-2 shadow-xs">
-            <Clock className="w-4 h-4 text-teal-600" />
-            <span>{language === 'km' ? 'ធ្វើបច្ចុប្បន្នភាពរៀងរាល់ ៥ វិនាទី' : 'Auto-syncs 5-10s'}</span>
+          <div className="px-3 py-1.5 rounded-xl bg-white border border-slate-200 text-slate-700 text-xs font-bold flex items-center gap-2 shadow-xs">
+            <Clock className="w-3.5 h-3.5 text-teal-600 shrink-0" />
+            <span>{language === 'km' ? 'រៀងរាល់ ៥-១០ វិនាទី' : 'Auto-syncs 5-10s'}</span>
           </div>
         </div>
       </div>
 
       {/* Main Map with Street & Satellite Switching */}
-      <div className="bg-white rounded-3xl border border-slate-200 shadow-sm p-3.5 sm:p-5 space-y-4">
-        <div className="h-[420px] sm:h-[520px] lg:h-[620px] w-full rounded-2xl overflow-hidden">
+      <div className="bg-white rounded-3xl border border-slate-200 shadow-sm p-3 sm:p-5 space-y-4">
+        <div className="h-[320px] sm:h-[450px] lg:h-[600px] w-full rounded-2xl overflow-hidden">
           <InteractiveMap 
             schools={schools} 
             buses={buses} 

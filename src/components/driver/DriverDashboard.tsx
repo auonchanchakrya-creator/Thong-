@@ -123,55 +123,58 @@ export function DriverDashboard({ onNavigate }: DriverDashboardProps) {
   });
 
   return (
-    <div className="space-y-6 pb-12">
+    <div className="space-y-5 sm:space-y-6 pb-12 w-full max-w-full overflow-hidden">
       {/* Top Header & Date / On Duty pill */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 sm:gap-4">
         <div>
-          <h2 className="text-3xl sm:text-4xl font-black text-slate-900 tracking-tight">
+          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black text-slate-900 tracking-tight break-words">
             {language === 'km' ? 'ផ្ទាំងគ្រប់គ្រងអ្នកបើកបរ' : 'Driver Dashboard'}
           </h2>
-          <p className="text-base sm:text-lg text-slate-600 mt-1 font-medium">
+          <p className="text-sm sm:text-base lg:text-lg text-slate-600 mt-0.5 sm:mt-1 font-medium leading-relaxed">
             {language === 'km' ? 'គ្រប់គ្រងខ្សែរត់ សិស្ស និងធានាសុវត្ថិភាពការធ្វើដំណើរ។' : 'Manage your route, students and keep everyone safe.'}
           </p>
         </div>
 
-        <div className="flex items-center gap-3 self-start sm:self-auto">
-          <div className="bg-white border border-slate-200 px-4 py-2.5 rounded-xl text-sm sm:text-base font-bold text-slate-800 flex items-center gap-2.5 shadow-xs min-h-[46px]">
-            <Calendar className="w-5 h-5 text-blue-600 shrink-0" />
-            <span>{language === 'km' ? 'ថ្ងៃព្រហស្បតិ៍ ទី១៦ ខែតុលា ឆ្នាំ២០២៥' : 'Thu, Oct 16, 2025'}</span>
-            <ChevronDown className="w-4 h-4 text-slate-400" />
+        <div className="flex flex-wrap items-center gap-2 sm:gap-3 w-full sm:w-auto">
+          <div className="bg-white border border-slate-200 px-3.5 py-2 rounded-xl text-xs sm:text-sm font-bold text-slate-800 flex items-center gap-2 shadow-xs min-h-[42px] flex-1 sm:flex-initial justify-between sm:justify-start">
+            <div className="flex items-center gap-2">
+              <Calendar className="w-4 h-4 text-blue-600 shrink-0" />
+              <span className="sm:hidden">{language === 'km' ? '១៦ តុលា ២០២៥' : 'Oct 16, 2025'}</span>
+              <span className="hidden sm:inline">{language === 'km' ? 'ថ្ងៃព្រហស្បតិ៍ ទី១៦ ខែតុលា ឆ្នាំ២០២៥' : 'Thu, Oct 16, 2025'}</span>
+            </div>
+            <ChevronDown className="w-3.5 h-3.5 text-slate-400 shrink-0" />
           </div>
-          <span className="px-4 py-2.5 rounded-xl bg-emerald-100 text-emerald-800 text-sm font-bold uppercase tracking-wide flex items-center gap-2 shadow-xs min-h-[46px]">
-            <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></span> {t('drivers.onDuty')}
+          <span className="px-3.5 py-2 rounded-xl bg-emerald-100 text-emerald-800 text-xs sm:text-sm font-bold uppercase tracking-wide flex items-center gap-2 shadow-xs min-h-[42px]">
+            <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span> {t('drivers.onDuty')}
           </span>
         </div>
       </div>
 
       {actionMessage && (
-        <div className="bg-emerald-50 border border-emerald-200 text-emerald-900 text-sm sm:text-base px-5 py-3.5 rounded-xl font-bold flex items-center gap-2.5 animate-in fade-in duration-200">
+        <div className="bg-emerald-50 border border-emerald-200 text-emerald-900 text-sm sm:text-base px-4 py-3 rounded-xl font-bold flex items-center gap-2.5 animate-in fade-in duration-200">
           <Check className="w-5 h-5 text-emerald-600 shrink-0" /> {actionMessage}
         </div>
       )}
 
       {/* Active Emergency Breakdown Alert Banner for Driver */}
       {activeEmergencyTrip && (
-        <div className="bg-gradient-to-r from-rose-600 via-red-600 to-amber-600 rounded-3xl p-5 sm:p-6 text-white shadow-xl shadow-rose-950/20 border-2 border-rose-400 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 animate-in fade-in duration-200">
-          <div className="flex items-center gap-4">
-            <div className="w-12 h-12 rounded-2xl bg-white/20 backdrop-blur-md flex items-center justify-center shrink-0 border border-white/30">
-              <AlertOctagon className="w-7 h-7 text-white animate-pulse" />
+        <div className="bg-gradient-to-r from-rose-600 via-red-600 to-amber-600 rounded-3xl p-4 sm:p-6 text-white shadow-xl shadow-rose-950/20 border-2 border-rose-400 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 animate-in fade-in duration-200">
+          <div className="flex items-center gap-3.5">
+            <div className="w-11 h-11 sm:w-12 sm:h-12 rounded-2xl bg-white/20 backdrop-blur-md flex items-center justify-center shrink-0 border border-white/30">
+              <AlertOctagon className="w-6 h-6 sm:w-7 sm:h-7 text-white animate-pulse" />
             </div>
             <div>
-              <div className="flex items-center gap-2.5">
-                <span className="px-3 py-1 rounded-full bg-white/25 text-white text-xs font-black uppercase tracking-wider">
-                  {language === 'km' ? '🚨 របាយការណ៍អាសន្នកំពុងដំណើរការ' : '🚨 ACTIVE BREAKDOWN INCIDENT'}
+              <div className="flex items-center gap-2 flex-wrap">
+                <span className="px-2.5 py-0.5 rounded-full bg-white/25 text-white text-[11px] font-black uppercase tracking-wider">
+                  {language === 'km' ? '🚨 របាយការណ៍អាសន្ន' : '🚨 ACTIVE BREAKDOWN'}
                 </span>
-                <span className="text-sm font-black text-rose-100">
+                <span className="text-xs sm:text-sm font-black text-rose-100">
                   {activeEmergencyTrip.status === 'emergency_replacement_required' 
-                    ? (language === 'km' ? 'រង់ចាំរដ្ឋបាលចាត់តាំងរថយន្តជំនួស' : 'Awaiting Replacement Dispatch')
+                    ? (language === 'km' ? 'រង់ចាំរថយន្តជំនួស' : 'Awaiting Replacement')
                     : (language === 'km' ? 'រថយន្តជំនួសបានចេញដំណើរ' : 'Replacement Dispatched')}
                 </span>
               </div>
-              <h3 className="text-lg sm:text-xl font-black tracking-tight text-white mt-1">
+              <h3 className="text-base sm:text-lg lg:text-xl font-black tracking-tight text-white mt-1">
                 {language === 'km' ? 'រថយន្តខូចតាមផ្លូវ • រដ្ឋបាលសាលាបានទទួលដំណឹង' : 'Bus Breakdown Reported • Admin Alerted'}
               </h3>
             </div>
@@ -179,10 +182,10 @@ export function DriverDashboard({ onNavigate }: DriverDashboardProps) {
 
           <button
             onClick={() => setShowBreakdownModal(true)}
-            className="w-full sm:w-auto px-6 py-3.5 rounded-2xl bg-white hover:bg-rose-50 text-rose-950 font-black text-sm shadow-md transition-all flex items-center justify-center gap-2.5 cursor-pointer shrink-0 min-h-[50px]"
+            className="w-full sm:w-auto px-5 py-3 rounded-2xl bg-white hover:bg-rose-50 text-rose-950 font-black text-xs sm:text-sm shadow-md transition-all flex items-center justify-center gap-2 cursor-pointer shrink-0 min-h-[46px]"
           >
-            <ShieldAlert className="w-5 h-5 text-rose-600" />
-            <span>{language === 'km' ? 'មើលស្ថានភាពអាសន្ន & ផ្ទេរសិស្ស' : 'Emergency Status & Student Transfers'}</span>
+            <ShieldAlert className="w-4 h-4 text-rose-600" />
+            <span>{language === 'km' ? 'ស្ថានភាពអាសន្ន & ផ្ទេរសិស្ស' : 'Emergency Status & Student Transfers'}</span>
           </button>
         </div>
       )}
@@ -194,93 +197,109 @@ export function DriverDashboard({ onNavigate }: DriverDashboardProps) {
       />
 
       {/* Prominent Live Turn-by-Turn GPS Navigation Mode Banner */}
-      <div className="bg-gradient-to-r from-blue-700 via-indigo-700 to-slate-900 rounded-3xl p-5 sm:p-6 text-white shadow-xl shadow-blue-900/20 flex flex-col md:flex-row items-start md:items-center justify-between gap-4 border border-blue-500/30">
-        <div className="space-y-2 max-w-xl">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-blue-500/30 border border-blue-400/40 text-blue-200 text-xs sm:text-sm font-bold uppercase tracking-wider">
-            <Navigation className="w-4 h-4 text-blue-300" />
+      <div className="bg-gradient-to-r from-blue-700 via-indigo-700 to-slate-900 rounded-3xl p-4 sm:p-6 text-white shadow-xl shadow-blue-900/20 flex flex-col md:flex-row items-start md:items-center justify-between gap-4 border border-blue-500/30">
+        <div className="space-y-1.5 sm:space-y-2 max-w-xl">
+          <div className="inline-flex items-center gap-2 px-3 py-0.5 rounded-full bg-blue-500/30 border border-blue-400/40 text-blue-200 text-xs font-bold uppercase tracking-wider">
+            <Navigation className="w-3.5 h-3.5 text-blue-300" />
             <span>{language === 'km' ? 'ប្រព័ន្ធនាំផ្លូវ GPS & ទទួលសិស្ស' : 'Live Navigation & Pickup Console'}</span>
           </div>
-          <h3 className="text-2xl sm:text-3xl font-black tracking-tight text-white">
+          <h3 className="text-xl sm:text-2xl lg:text-3xl font-black tracking-tight text-white">
             {language === 'km' ? 'ចាប់ផ្តើមការរុករកតាមផ្លូវ & កត់ត្រាឡើងរថយន្ត' : 'Turn-by-Turn Route Navigation & Pickup'}
           </h3>
-          <p className="text-sm sm:text-base text-blue-100/90 leading-relaxed font-normal">
+          <p className="text-xs sm:text-sm lg:text-base text-blue-100/90 leading-relaxed font-normal">
             {language === 'km'
-              ? 'ផែនទីចរាចរណ៍ភ្នំពេញផ្ទាល់ បង្ហាញទីតាំងចំណតសិស្សតាមលំដាប់ ការនាំផ្លូវមួយជំហានម្តងៗ និងប៊ូតុងធំសម្រាប់ចុចទទួលសិស្ស និងជូនដំណឹងស្វ័យប្រវត្តទៅអាណាព្យាបាល។'
+              ? 'ផែនទីចរាចរណ៍ភ្នំពេញផ្ទាល់ បង្ហាញទីតាំងចំណតសិស្សតាមលំដាប់ ការនាំផ្លូវមួយជំហានម្តងៗ និងប៊ូតុងធំសម្រាប់ចុចទទួលសិស្ស។'
               : 'Interactive Phnom Penh map, sequential student pickup order, turn-by-turn routing, large driving buttons, and automatic parent alerts.'}
           </p>
         </div>
 
         <button
           onClick={() => onNavigate('my-route')}
-          className="w-full md:w-auto px-6 py-4 rounded-2xl bg-white hover:bg-blue-50 text-blue-800 font-black text-base flex items-center justify-center gap-3 shadow-lg shadow-black/20 transition-all transform active:scale-97 cursor-pointer shrink-0 min-h-[56px]"
+          className="w-full md:w-auto px-5 py-3.5 rounded-2xl bg-white hover:bg-blue-50 text-blue-800 font-black text-sm sm:text-base flex items-center justify-center gap-2.5 shadow-lg shadow-black/20 transition-all transform active:scale-97 cursor-pointer shrink-0 min-h-[50px]"
         >
-          <div className="w-8 h-8 rounded-xl bg-blue-600 text-white flex items-center justify-center font-black">
+          <div className="w-7 h-7 rounded-xl bg-blue-600 text-white flex items-center justify-center font-black text-xs">
             ▶
           </div>
-          <span>{language === 'km' ? 'បើកប្រព័ន្ធនាំផ្លូវ (Launch Navigation)' : 'Start Route Navigation'}</span>
+          <span>{language === 'km' ? 'បើកប្រព័ន្ធនាំផ្លូវ' : 'Start Route Navigation'}</span>
         </button>
       </div>
 
-      {/* 6 Top Summary Cards */}
-      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 sm:gap-4">
+      {/* 6 Top Summary Cards - Stack vertically on mobile, responsive grid on tablet/desktop */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-3 sm:gap-4">
         {/* Assigned Bus */}
         <div className="bg-white p-4 sm:p-5 rounded-2xl border border-slate-200/90 shadow-xs">
-          <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center mb-2.5 shrink-0">
-            <Bus className="w-5 h-5 sm:w-6 sm:h-6" />
+          <div className="flex items-center justify-between mb-2 sm:mb-3">
+            <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center shrink-0">
+              <Bus className="w-5 h-5 sm:w-6 sm:h-6" />
+            </div>
+            <span className="text-xs text-slate-500 font-medium">{bus?.model || 'Toyota Coaster'}</span>
           </div>
-          <p className="text-xs sm:text-sm text-slate-600 font-semibold truncate">{t('drivers.assignedBus')}</p>
-          <h3 className="text-lg sm:text-xl font-black text-slate-900 mt-1 truncate">{bus?.busNumber || 'Bus 03'}</h3>
-          <p className="text-xs text-slate-500 font-medium truncate mt-0.5">{bus?.model || 'Toyota Coaster'}</p>
+          <p className="text-sm sm:text-base text-slate-600 font-semibold leading-snug">{t('drivers.assignedBus')}</p>
+          <h3 className="text-xl sm:text-2xl font-black text-slate-900 mt-1">{bus?.busNumber || 'Bus 03'}</h3>
         </div>
 
         {/* Today's Route */}
         <div className="bg-white p-4 sm:p-5 rounded-2xl border border-slate-200/90 shadow-xs">
-          <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center mb-2.5 shrink-0">
-            <Navigation className="w-5 h-5 sm:w-6 sm:h-6" />
+          <div className="flex items-center justify-between mb-2 sm:mb-3">
+            <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center shrink-0">
+              <Navigation className="w-5 h-5 sm:w-6 sm:h-6" />
+            </div>
+            <span className="text-xs text-slate-500 font-medium">
+              {language === 'km' ? 'ITC → ទួលគោក' : 'ITC → Royal'}
+            </span>
           </div>
-          <p className="text-xs sm:text-sm text-slate-600 font-semibold truncate">{t('nav.myRoute')}</p>
-          <h3 className="text-lg sm:text-xl font-black text-slate-900 mt-1 truncate">{localize(route?.name, route?.nameKh) || 'Route 1'}</h3>
-          <p className="text-xs text-slate-500 font-medium truncate mt-0.5">{language === 'km' ? 'តិចណូ ITC → ទួលគោក' : 'ITC School → Royal School'}</p>
+          <p className="text-sm sm:text-base text-slate-600 font-semibold leading-snug">{t('nav.myRoute')}</p>
+          <h3 className="text-xl sm:text-2xl font-black text-slate-900 mt-1">{localize(route?.name, route?.nameKh) || 'Route 1'}</h3>
         </div>
 
         {/* Total Students */}
         <div className="bg-white p-4 sm:p-5 rounded-2xl border border-slate-200/90 shadow-xs">
-          <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center mb-2.5 shrink-0">
-            <Users className="w-5 h-5 sm:w-6 sm:h-6" />
+          <div className="flex items-center justify-between mb-2 sm:mb-3">
+            <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center shrink-0">
+              <Users className="w-5 h-5 sm:w-6 sm:h-6" />
+            </div>
+            <span className="text-xs text-slate-500 font-medium">{language === 'km' ? 'ខ្សែរត់នេះ' : 'Assigned'}</span>
           </div>
-          <p className="text-xs sm:text-sm text-slate-600 font-semibold truncate">{t('dashboard.totalStudents')}</p>
-          <h3 className="text-2xl sm:text-3xl font-black text-slate-900 mt-1 truncate">{formatNumber(assignedStudents.length || 12)}</h3>
-          <p className="text-xs text-slate-500 font-medium truncate mt-0.5">{language === 'km' ? 'សិស្សក្នុងខ្សែរត់នេះ' : '(Assigned route)'}</p>
+          <p className="text-sm sm:text-base text-slate-600 font-semibold leading-snug">{t('dashboard.totalStudents')}</p>
+          <h3 className="text-2xl sm:text-3xl font-black text-slate-900 mt-1">{formatNumber(assignedStudents.length || 12)}</h3>
         </div>
 
         {/* Students Picked Up */}
         <div className="bg-white p-4 sm:p-5 rounded-2xl border border-slate-200/90 shadow-xs">
-          <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center mb-2.5 shrink-0">
-            <CheckCircle2 className="w-5 h-5 sm:w-6 sm:h-6" />
+          <div className="flex items-center justify-between mb-2 sm:mb-3">
+            <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center shrink-0">
+              <CheckCircle2 className="w-5 h-5 sm:w-6 sm:h-6" />
+            </div>
+            <span className="text-xs text-emerald-700 font-bold">{language === 'km' ? 'បានផ្ទៀងផ្ទាត់' : 'Verified'}</span>
           </div>
-          <p className="text-xs sm:text-sm text-slate-600 font-semibold truncate">{t('students.pickedUp')}</p>
-          <h3 className="text-2xl sm:text-3xl font-black text-slate-900 mt-1 truncate">{formatNumber(pickedUpCount)} / {formatNumber(assignedStudents.length || 12)}</h3>
-          <p className="text-xs text-emerald-700 font-bold truncate mt-0.5">{language === 'km' ? 'បានផ្ទៀងផ្ទាត់' : 'Verified'}</p>
+          <p className="text-sm sm:text-base text-slate-600 font-semibold leading-snug">{t('students.pickedUp')}</p>
+          <h3 className="text-2xl sm:text-3xl font-black text-slate-900 mt-1">
+            {formatNumber(pickedUpCount)} / {formatNumber(assignedStudents.length || 12)}
+          </h3>
         </div>
 
         {/* Next Stop */}
         <div className="bg-white p-4 sm:p-5 rounded-2xl border border-slate-200/90 shadow-xs">
-          <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-xl bg-rose-50 text-rose-600 flex items-center justify-center mb-2.5 shrink-0">
-            <MapPin className="w-5 h-5 sm:w-6 sm:h-6" />
+          <div className="flex items-center justify-between mb-2 sm:mb-3">
+            <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-xl bg-rose-50 text-rose-600 flex items-center justify-center shrink-0">
+              <MapPin className="w-5 h-5 sm:w-6 sm:h-6" />
+            </div>
+            <span className="text-xs text-amber-700 font-bold">08:20 AM</span>
           </div>
-          <p className="text-xs sm:text-sm text-slate-600 font-semibold truncate">{t('driverPortal.nextStop')}</p>
-          <h3 className="text-base sm:text-lg font-black text-slate-900 mt-1 truncate">{language === 'km' ? 'ច្បារអំពៅ' : 'Chbar Ampov'}</h3>
-          <p className="text-xs text-amber-700 font-bold truncate mt-0.5">{t('dashboard.eta')}: 08:20 AM</p>
+          <p className="text-sm sm:text-base text-slate-600 font-semibold leading-snug">{t('driverPortal.nextStop')}</p>
+          <h3 className="text-lg sm:text-xl font-black text-slate-900 mt-1">{language === 'km' ? 'ច្បារអំពៅ' : 'Chbar Ampov'}</h3>
         </div>
 
         {/* Route Status */}
         <div className="bg-white p-4 sm:p-5 rounded-2xl border border-slate-200/90 shadow-xs">
-          <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-xl bg-purple-50 text-purple-600 flex items-center justify-center mb-2.5 shrink-0">
-            <Sparkles className="w-5 h-5 sm:w-6 sm:h-6" />
+          <div className="flex items-center justify-between mb-2 sm:mb-3">
+            <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-xl bg-purple-50 text-purple-600 flex items-center justify-center shrink-0">
+              <Sparkles className="w-5 h-5 sm:w-6 sm:h-6" />
+            </div>
+            <span className="text-xs font-bold text-emerald-600 uppercase">{t('routes.inProgress')}</span>
           </div>
-          <p className="text-xs sm:text-sm text-slate-600 font-semibold truncate">{t('routes.status')}</p>
-          <h3 className="text-base sm:text-lg font-black text-emerald-600 mt-1 uppercase truncate">{t('routes.inProgress')}</h3>
-          <div className="w-full bg-slate-100 h-2 rounded-full mt-1.5 overflow-hidden">
+          <p className="text-sm sm:text-base text-slate-600 font-semibold leading-snug">{t('routes.status')}</p>
+          <div className="w-full bg-slate-100 h-2.5 rounded-full mt-2.5 overflow-hidden">
             <div className="bg-emerald-500 h-full w-[42%] rounded-full"></div>
           </div>
         </div>

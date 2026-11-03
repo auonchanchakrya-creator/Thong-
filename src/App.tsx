@@ -3,6 +3,7 @@ import { LanguageProvider, useLanguage } from './context/LanguageContext';
 import { AppProvider, useApp } from './context/AppContext';
 import { TopNavbar } from './components/common/TopNavbar';
 import { Sidebar } from './components/common/Sidebar';
+import { MobileBottomNav } from './components/common/MobileBottomNav';
 import { RoleSwitcherModal } from './components/auth/RoleSwitcherModal';
 import { GpsSystemFlowTestModal } from './components/common/GpsSystemFlowTestModal';
 
@@ -187,12 +188,21 @@ function MainLayout() {
           setActiveTab={setActiveTab} 
           isOpenMobile={isMobileNavOpen}
           onCloseMobile={() => setIsMobileNavOpen(false)}
+          onOpenRoleModal={() => setIsRoleModalOpen(true)}
+          onOpenGpsTestModal={() => setIsGpsTestModalOpen(true)}
         />
         
-        <main className="flex-1 p-3.5 sm:p-5 md:p-6 lg:p-8 w-full max-w-7xl mx-auto min-w-0 overflow-y-auto overflow-x-hidden">
+        <main className="flex-1 p-3 sm:p-5 md:p-6 lg:p-8 w-full max-w-7xl mx-auto min-w-0 overflow-y-auto overflow-x-hidden pb-24 lg:pb-8">
           {renderContent()}
         </main>
       </div>
+
+      {/* Dedicated Mobile Bottom Navigation Bar (Hidden on desktop lg) */}
+      <MobileBottomNav 
+        activeTab={activeTab} 
+        setActiveTab={setActiveTab} 
+        onOpenMobileMenu={() => setIsMobileNavOpen(true)} 
+      />
 
       <RoleSwitcherModal isOpen={isRoleModalOpen} onClose={() => setIsRoleModalOpen(false)} />
       <GpsSystemFlowTestModal 

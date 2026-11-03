@@ -50,17 +50,17 @@ export function BusesManager() {
           <h2 className="text-3xl sm:text-4xl font-black text-slate-900 tracking-tight">{t('buses.title')}</h2>
           <p className="text-base sm:text-lg text-slate-600 mt-1 font-medium">{t('buses.subtitle')}</p>
         </div>
-        <div className="flex items-center gap-3 flex-wrap self-start sm:self-auto">
+        <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2.5 w-full sm:w-auto">
           <button
             onClick={() => setSelectedStickerBus(buses[0])}
-            className="min-h-[48px] bg-slate-900 hover:bg-slate-800 text-white text-base font-bold px-5 py-3 rounded-xl transition-colors shadow-md flex items-center gap-2.5 cursor-pointer"
+            className="min-h-[48px] bg-slate-900 hover:bg-slate-800 text-white text-base font-bold px-5 py-3 rounded-xl transition-colors shadow-md flex items-center justify-center gap-2.5 cursor-pointer w-full sm:w-auto"
           >
             <QrCode className="w-5 h-5 text-amber-300 shrink-0" />
             <span>{language === 'km' ? 'ប័ណ្ណកូដ QR រថយន្ត' : 'Bus QR Stickers'}</span>
           </button>
           <button
             onClick={() => { setEditingBus(null); setShowModal(true); }}
-            className="min-h-[48px] bg-blue-600 hover:bg-blue-700 text-white text-base font-bold px-5 py-3 rounded-xl transition-colors shadow-md flex items-center gap-2.5 cursor-pointer"
+            className="min-h-[48px] bg-blue-600 hover:bg-blue-700 text-white text-base font-bold px-5 py-3 rounded-xl transition-colors shadow-md flex items-center justify-center gap-2.5 cursor-pointer w-full sm:w-auto"
           >
             <Plus className="w-5 h-5 shrink-0" /> {t('buses.addBus')}
           </button>

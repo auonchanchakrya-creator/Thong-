@@ -97,11 +97,11 @@ export function EmergencyBreakdownBanner() {
               </div>
             </div>
 
-            <div className="flex items-center gap-3 self-start lg:self-auto shrink-0">
+            <div className="flex items-center gap-3 w-full lg:w-auto shrink-0">
               <button
                 type="button"
                 onClick={() => setIsModalOpen(true)}
-                className="bg-white hover:bg-rose-50 text-rose-950 font-black py-3 px-5 rounded-2xl text-xs sm:text-sm shadow-lg flex items-center gap-2 cursor-pointer transition-all border border-white/50"
+                className="w-full lg:w-auto bg-white hover:bg-rose-50 text-rose-950 font-black py-3 px-5 rounded-2xl text-xs sm:text-sm shadow-lg flex items-center justify-center gap-2 cursor-pointer transition-all border border-white/50 min-h-[46px]"
               >
                 <ShieldAlert className="w-4 h-4 text-rose-600" />
                 <span>
@@ -117,7 +117,7 @@ export function EmergencyBreakdownBanner() {
         </div>
       ) : (
         /* Standby Quick Emergency Test / Readiness Card */
-        <div className="bg-white rounded-2xl border border-slate-200/80 p-4 shadow-xs flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+        <div className="bg-white rounded-2xl border border-slate-200/80 p-3 sm:p-4 shadow-xs flex flex-col sm:flex-row sm:items-center justify-between gap-3">
           <div className="flex items-center gap-3">
             <div className="w-9 h-9 rounded-xl bg-rose-50 text-rose-600 flex items-center justify-center shrink-0">
               <LifeBuoy className="w-5 h-5" />
@@ -138,10 +138,10 @@ export function EmergencyBreakdownBanner() {
             type="button"
             onClick={handleSimulateEmergencyBreakdown}
             disabled={isSimulating}
-            className="bg-rose-50 hover:bg-rose-100 text-rose-700 font-extrabold text-xs px-3.5 py-2 rounded-xl border border-rose-200 transition-colors flex items-center gap-1.5 self-start sm:self-auto cursor-pointer"
+            className="w-full sm:w-auto bg-rose-50 hover:bg-rose-100 text-rose-700 font-extrabold text-xs px-3.5 py-2.5 rounded-xl border border-rose-200 transition-colors flex items-center justify-center gap-1.5 cursor-pointer min-h-[42px]"
           >
             <AlertTriangle className="w-3.5 h-3.5 text-rose-600" />
-            <span>{language === 'km' ? 'សាកល្បងរាយការណ៍រថយន្តខូច (Simulate Breakdown)' : 'Simulate Breakdown Drill'}</span>
+            <span>{language === 'km' ? 'សាកល្បងរាយការណ៍រថយន្តខូច' : 'Simulate Breakdown Drill'}</span>
           </button>
         </div>
       )}

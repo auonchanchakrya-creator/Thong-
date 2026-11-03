@@ -140,9 +140,12 @@ export function AttendanceManager() {
           </p>
         </div>
 
-        <div className="flex items-center gap-3 flex-wrap">
-          <div className="flex items-center gap-2 bg-white border border-slate-200 rounded-xl px-3.5 py-2.5 text-sm sm:text-base font-bold text-slate-800 shadow-xs min-h-[46px]">
-            <Calendar className="w-4 h-4 text-teal-600 shrink-0" />
+        <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2.5 w-full sm:w-auto">
+          <div className="flex items-center gap-2 bg-white border border-slate-200 rounded-xl px-3.5 py-2.5 text-sm sm:text-base font-bold text-slate-800 shadow-xs min-h-[46px] w-full sm:w-auto justify-between sm:justify-start">
+            <div className="flex items-center gap-2">
+              <Calendar className="w-4 h-4 text-teal-600 shrink-0" />
+              <span className="text-xs text-slate-500 font-medium sm:hidden">{language === 'km' ? 'កាលបរិច្ឆេទ:' : 'Date:'}</span>
+            </div>
             <input 
               type="date" 
               value={selectedDate} 
@@ -151,26 +154,28 @@ export function AttendanceManager() {
             />
           </div>
 
-          <button 
-            onClick={handleExportCSV}
-            className="flex items-center gap-2 px-4 py-2.5 bg-white hover:bg-slate-50 text-slate-800 border border-slate-200 rounded-xl text-sm sm:text-base font-bold transition-all shadow-xs min-h-[46px] cursor-pointer"
-          >
-            <Download className="w-4 h-4 text-slate-700" />
-            <span className="hidden sm:inline">{language === 'km' ? 'ទាញយក CSV' : 'Export CSV'}</span>
-          </button>
+          <div className="flex items-center gap-2 w-full sm:w-auto">
+            <button 
+              onClick={handleExportCSV}
+              className="flex-1 sm:flex-initial flex items-center justify-center gap-2 px-4 py-2.5 bg-white hover:bg-slate-50 text-slate-800 border border-slate-200 rounded-xl text-sm sm:text-base font-bold transition-all shadow-xs min-h-[46px] cursor-pointer"
+            >
+              <Download className="w-4 h-4 text-slate-700" />
+              <span>{language === 'km' ? 'ទាញយក CSV' : 'Export CSV'}</span>
+            </button>
 
-          <button 
-            onClick={handlePrint}
-            className="flex items-center gap-2 px-4 py-2.5 bg-teal-600 hover:bg-teal-700 text-white rounded-xl text-sm sm:text-base font-bold transition-all shadow-xs shadow-teal-500/20 min-h-[46px] cursor-pointer"
-          >
-            <Printer className="w-4 h-4" />
-            <span>{language === 'km' ? 'បោះពុម្ពបញ្ជី' : 'Print Report'}</span>
-          </button>
+            <button 
+              onClick={handlePrint}
+              className="flex-1 sm:flex-initial flex items-center justify-center gap-2 px-4 py-2.5 bg-teal-600 hover:bg-teal-700 text-white rounded-xl text-sm sm:text-base font-bold transition-all shadow-xs shadow-teal-500/20 min-h-[46px] cursor-pointer"
+            >
+              <Printer className="w-4 h-4" />
+              <span>{language === 'km' ? 'បោះពុម្ព' : 'Print'}</span>
+            </button>
+          </div>
         </div>
       </div>
 
       {/* Attendance Stats Cards */}
-      <div className="grid grid-cols-2 md:grid-cols-5 gap-3.5 sm:gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3.5 sm:gap-4">
         <div className="bg-white p-4 sm:p-5 rounded-2xl border border-slate-200 shadow-xs">
           <div className="text-sm sm:text-base font-bold text-slate-600">{language === 'km' ? 'សិស្សចុះឈ្មោះសរុប' : 'Total Registered'}</div>
           <div className="text-2xl sm:text-3xl font-black text-slate-900 mt-1">{formatNumber(total)}</div>
@@ -195,7 +200,7 @@ export function AttendanceManager() {
           <div className="text-xs sm:text-sm text-amber-700 font-medium mt-1">{language === 'km' ? 'នៅចំណតផ្ទះ' : 'At designated stop'}</div>
         </div>
 
-        <div className="bg-white p-4 sm:p-5 rounded-2xl border border-red-200 shadow-xs bg-red-50/20 col-span-2 md:col-span-1">
+        <div className="bg-white p-4 sm:p-5 rounded-2xl border border-red-200 shadow-xs bg-red-50/20 sm:col-span-2 lg:col-span-1">
           <div className="text-sm sm:text-base font-bold text-red-800">{language === 'km' ? 'អវត្តមាន / ឈប់' : 'Marked Absent'}</div>
           <div className="text-2xl sm:text-3xl font-black text-red-900 mt-1">{formatNumber(absent)}</div>
           <div className="text-xs sm:text-sm text-red-700 font-medium mt-1">{language === 'km' ? 'អត្រាវត្តមានសរុប' : 'Attendance rate'}: {attendanceRate}%</div>

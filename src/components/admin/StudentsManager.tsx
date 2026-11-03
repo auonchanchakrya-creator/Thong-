@@ -82,7 +82,7 @@ export function StudentsManager() {
         </div>
         <button
           onClick={() => { setEditingStudent(null); setShowModal(true); }}
-          className="bg-blue-600 hover:bg-blue-700 text-white text-base font-bold px-5 py-3 rounded-xl transition-colors shadow-md flex items-center gap-2.5 self-start min-h-[48px]"
+          className="bg-blue-600 hover:bg-blue-700 text-white text-base font-bold px-5 py-3 rounded-xl transition-colors shadow-md flex items-center justify-center gap-2.5 w-full sm:w-auto min-h-[48px]"
         >
           <Plus className="w-5 h-5" /> {t('students.addStudent')}
         </button>

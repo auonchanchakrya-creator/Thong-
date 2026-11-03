@@ -22,120 +22,127 @@ export function AdminDashboard({ onNavigate }: AdminDashboardProps) {
   const [showStickerModal, setShowStickerModal] = useState(false);
 
   return (
-    <div className="space-y-6 pb-12">
+    <div className="space-y-5 sm:space-y-6 pb-12 w-full max-w-full overflow-hidden">
       {/* Top Header & Date Display */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 sm:gap-4">
         <div>
-          <h2 className="text-3xl sm:text-4xl font-black text-slate-900 tracking-tight">{t('dashboard.title')}</h2>
-          <p className="text-base sm:text-lg text-slate-600 font-medium mt-1 leading-relaxed">{t('dashboard.subtitle')}</p>
+          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black text-slate-900 tracking-tight break-words">
+            {t('dashboard.title')}
+          </h2>
+          <p className="text-sm sm:text-base lg:text-lg text-slate-600 font-medium mt-0.5 sm:mt-1 leading-relaxed">
+            {t('dashboard.subtitle')}
+          </p>
         </div>
 
-        <div className="flex items-center gap-3 self-start sm:self-auto">
-          <div className="bg-white border border-slate-200 px-4 py-2.5 rounded-xl text-sm sm:text-base font-semibold text-slate-800 flex items-center gap-2.5 shadow-xs hover:bg-slate-50 transition-colors">
-            <Calendar className="w-5 h-5 text-blue-600" />
-            <span>{language === 'km' ? 'ថ្ងៃព្រហស្បតិ៍ ទី១៦ ខែតុលា ឆ្នាំ២០២៥' : 'Thu, Oct 16, 2025'}</span>
+        <div className="flex items-center gap-2.5 w-full sm:w-auto">
+          <div className="w-full sm:w-auto bg-white border border-slate-200 px-3.5 py-2 sm:px-4 sm:py-2.5 rounded-xl text-xs sm:text-sm lg:text-base font-semibold text-slate-800 flex items-center justify-between sm:justify-start gap-2.5 shadow-xs">
+            <div className="flex items-center gap-2">
+              <Calendar className="w-4 h-4 sm:w-5 sm:h-5 text-blue-600 shrink-0" />
+              <span className="sm:hidden">{language === 'km' ? '១៦ តុលា ២០២៥' : 'Oct 16, 2025'}</span>
+              <span className="hidden sm:inline">{language === 'km' ? 'ថ្ងៃព្រហស្បតិ៍ ទី១៦ ខែតុលា ឆ្នាំ២០២៥' : 'Thu, Oct 16, 2025'}</span>
+            </div>
           </div>
         </div>
       </div>
 
-      {/* Emergency Bus Breakdown & Replacement Command Banner (Requirements 2, 3, 5) */}
+      {/* Emergency Bus Breakdown & Replacement Command Banner */}
       <EmergencyBreakdownBanner />
 
-      {/* 6 Top Metric Cards */}
-      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3.5 sm:gap-5">
+      {/* 6 Top Metric Cards - Stack vertically on mobile, responsive grid on tablet/desktop */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-3 sm:gap-4">
         {/* Total Schools */}
         <div onClick={() => onNavigate('schools')} className="bg-white p-4 sm:p-5 rounded-2xl border border-slate-200/90 shadow-xs hover:shadow-md transition-all cursor-pointer group">
-          <div className="flex items-center justify-between mb-3">
+          <div className="flex items-center justify-between mb-2 sm:mb-3">
             <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center group-hover:scale-105 transition-transform shrink-0">
               <Building2 className="w-5 h-5 sm:w-6 sm:h-6" />
             </div>
-          </div>
-          <p className="text-sm sm:text-base text-slate-600 font-semibold truncate">{t('dashboard.totalSchools')}</p>
-          <div className="flex items-baseline justify-between mt-1 gap-1">
-            <h3 className="text-2xl sm:text-3xl font-black text-slate-900">{formatNumber(schools.length)}</h3>
-            <span className="text-xs sm:text-sm font-bold text-emerald-600 flex items-center gap-0.5 shrink-0">
-              ↑ 1 <span className="text-slate-400 font-normal hidden sm:inline">{t('dashboard.thisMonth')}</span>
+            <span className="text-xs sm:text-sm font-bold text-emerald-600 flex items-center gap-0.5">
+              ↑ 1 <span className="text-slate-400 font-normal">{t('dashboard.thisMonth')}</span>
             </span>
+          </div>
+          <p className="text-sm sm:text-base text-slate-600 font-semibold">{t('dashboard.totalSchools')}</p>
+          <div className="flex items-baseline justify-between mt-1">
+            <h3 className="text-2xl sm:text-3xl font-black text-slate-900">{formatNumber(schools.length)}</h3>
           </div>
         </div>
 
         {/* Total Students */}
         <div onClick={() => onNavigate('students')} className="bg-white p-4 sm:p-5 rounded-2xl border border-slate-200/90 shadow-xs hover:shadow-md transition-all cursor-pointer group">
-          <div className="flex items-center justify-between mb-3">
+          <div className="flex items-center justify-between mb-2 sm:mb-3">
             <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center group-hover:scale-105 transition-transform shrink-0">
               <GraduationCap className="w-5 h-5 sm:w-6 sm:h-6" />
             </div>
-          </div>
-          <p className="text-sm sm:text-base text-slate-600 font-semibold truncate">{t('dashboard.totalStudents')}</p>
-          <div className="flex items-baseline justify-between mt-1 gap-1">
-            <h3 className="text-2xl sm:text-3xl font-black text-slate-900">{formatNumber(students.length)}</h3>
-            <span className="text-xs sm:text-sm font-bold text-emerald-600 flex items-center gap-0.5 shrink-0">
-              ↑ 12 <span className="text-slate-400 font-normal hidden sm:inline">{t('dashboard.thisWeek')}</span>
+            <span className="text-xs sm:text-sm font-bold text-emerald-600 flex items-center gap-0.5">
+              ↑ 12 <span className="text-slate-400 font-normal">{t('dashboard.thisWeek')}</span>
             </span>
+          </div>
+          <p className="text-sm sm:text-base text-slate-600 font-semibold leading-snug">{t('dashboard.totalStudents')}</p>
+          <div className="flex items-baseline justify-between mt-1">
+            <h3 className="text-2xl sm:text-3xl font-black text-slate-900">{formatNumber(students.length)}</h3>
           </div>
         </div>
 
         {/* Active Buses */}
         <div onClick={() => onNavigate('buses')} className="bg-white p-4 sm:p-5 rounded-2xl border border-slate-200/90 shadow-xs hover:shadow-md transition-all cursor-pointer group">
-          <div className="flex items-center justify-between mb-3">
+          <div className="flex items-center justify-between mb-2 sm:mb-3">
             <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center group-hover:scale-105 transition-transform shrink-0">
               <Bus className="w-5 h-5 sm:w-6 sm:h-6" />
             </div>
-          </div>
-          <p className="text-sm sm:text-base text-slate-600 font-semibold truncate">{t('dashboard.activeBuses')}</p>
-          <div className="flex items-baseline justify-between mt-1 gap-1">
-            <h3 className="text-2xl sm:text-3xl font-black text-slate-900">{formatNumber(activeBusesCount)}</h3>
-            <span className="text-xs sm:text-sm font-bold text-emerald-600 flex items-center gap-0.5 shrink-0">
-              ↑ 2 <span className="text-slate-400 font-normal hidden sm:inline">{t('dashboard.thisWeek')}</span>
+            <span className="text-xs sm:text-sm font-bold text-emerald-600 flex items-center gap-0.5">
+              ↑ 2 <span className="text-slate-400 font-normal">{t('dashboard.thisWeek')}</span>
             </span>
+          </div>
+          <p className="text-sm sm:text-base text-slate-600 font-semibold leading-snug">{t('dashboard.activeBuses')}</p>
+          <div className="flex items-baseline justify-between mt-1">
+            <h3 className="text-2xl sm:text-3xl font-black text-slate-900">{formatNumber(activeBusesCount)}</h3>
           </div>
         </div>
 
         {/* Active Drivers */}
         <div onClick={() => onNavigate('drivers')} className="bg-white p-4 sm:p-5 rounded-2xl border border-slate-200/90 shadow-xs hover:shadow-md transition-all cursor-pointer group">
-          <div className="flex items-center justify-between mb-3">
+          <div className="flex items-center justify-between mb-2 sm:mb-3">
             <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center group-hover:scale-105 transition-transform shrink-0">
               <UserCheck className="w-5 h-5 sm:w-6 sm:h-6" />
             </div>
-          </div>
-          <p className="text-sm sm:text-base text-slate-600 font-semibold truncate">{t('dashboard.activeDrivers')}</p>
-          <div className="flex items-baseline justify-between mt-1 gap-1">
-            <h3 className="text-2xl sm:text-3xl font-black text-slate-900">{formatNumber(drivers.length)}</h3>
-            <span className="text-xs sm:text-sm font-bold text-emerald-600 flex items-center gap-0.5 shrink-0">
-              ↑ 1 <span className="text-slate-400 font-normal hidden sm:inline">{t('dashboard.thisWeek')}</span>
+            <span className="text-xs sm:text-sm font-bold text-emerald-600 flex items-center gap-0.5">
+              ↑ 1 <span className="text-slate-400 font-normal">{t('dashboard.thisWeek')}</span>
             </span>
+          </div>
+          <p className="text-sm sm:text-base text-slate-600 font-semibold leading-snug">{t('dashboard.activeDrivers')}</p>
+          <div className="flex items-baseline justify-between mt-1">
+            <h3 className="text-2xl sm:text-3xl font-black text-slate-900">{formatNumber(drivers.length)}</h3>
           </div>
         </div>
 
         {/* Active Routes */}
         <div onClick={() => onNavigate('routes')} className="bg-white p-4 sm:p-5 rounded-2xl border border-slate-200/90 shadow-xs hover:shadow-md transition-all cursor-pointer group">
-          <div className="flex items-center justify-between mb-3">
+          <div className="flex items-center justify-between mb-2 sm:mb-3">
             <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center group-hover:scale-105 transition-transform shrink-0">
               <RouteIcon className="w-5 h-5 sm:w-6 sm:h-6" />
             </div>
-          </div>
-          <p className="text-sm sm:text-base text-slate-600 font-semibold truncate">{t('dashboard.activeRoutes')}</p>
-          <div className="flex items-baseline justify-between mt-1 gap-1">
-            <h3 className="text-2xl sm:text-3xl font-black text-slate-900">{formatNumber(routes.length)}</h3>
-            <span className="text-xs sm:text-sm font-bold text-emerald-600 flex items-center gap-0.5 shrink-0">
-              ↑ 1 <span className="text-slate-400 font-normal hidden sm:inline">{t('dashboard.thisWeek')}</span>
+            <span className="text-xs sm:text-sm font-bold text-emerald-600 flex items-center gap-0.5">
+              ↑ 1 <span className="text-slate-400 font-normal">{t('dashboard.thisWeek')}</span>
             </span>
+          </div>
+          <p className="text-sm sm:text-base text-slate-600 font-semibold leading-snug">{t('dashboard.activeRoutes')}</p>
+          <div className="flex items-baseline justify-between mt-1">
+            <h3 className="text-2xl sm:text-3xl font-black text-slate-900">{formatNumber(routes.length)}</h3>
           </div>
         </div>
 
         {/* Trips in Progress */}
         <div onClick={() => onNavigate('trips')} className="bg-white p-4 sm:p-5 rounded-2xl border border-slate-200/90 shadow-xs hover:shadow-md transition-all cursor-pointer group">
-          <div className="flex items-center justify-between mb-3">
+          <div className="flex items-center justify-between mb-2 sm:mb-3">
             <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-2xl bg-purple-50 text-purple-600 flex items-center justify-center group-hover:scale-105 transition-transform shrink-0">
               <History className="w-5 h-5 sm:w-6 sm:h-6" />
             </div>
-          </div>
-          <p className="text-sm sm:text-base text-slate-600 font-semibold truncate">{t('dashboard.inProgressTrips')}</p>
-          <div className="flex items-baseline justify-between mt-1 gap-1">
-            <h3 className="text-2xl sm:text-3xl font-black text-slate-900">{formatNumber(inProgressTripsCount)}</h3>
-            <span className="text-xs sm:text-sm font-bold text-emerald-600 flex items-center gap-0.5 shrink-0">
-              ● <span className="text-slate-400 font-normal hidden sm:inline">{t('common.active')}</span>
+            <span className="text-xs sm:text-sm font-bold text-emerald-600 flex items-center gap-0.5">
+              ● <span className="text-slate-400 font-normal">{t('common.active')}</span>
             </span>
+          </div>
+          <p className="text-sm sm:text-base text-slate-600 font-semibold leading-snug">{t('dashboard.inProgressTrips')}</p>
+          <div className="flex items-baseline justify-between mt-1">
+            <h3 className="text-2xl sm:text-3xl font-black text-slate-900">{formatNumber(inProgressTripsCount)}</h3>
           </div>
         </div>
       </div>
