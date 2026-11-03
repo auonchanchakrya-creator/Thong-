@@ -297,22 +297,22 @@ export function PhnomPenhOptimizerDashboard() {
         </div>
 
         {/* Global Action Buttons */}
-        <div className="flex items-center gap-2.5 flex-wrap">
+        <div className="flex items-center gap-2.5 flex-wrap w-full sm:w-auto">
           <button
             onClick={handleOptimizeRoute}
             disabled={optimizing || stops.length < 2}
-            className="bg-emerald-600 hover:bg-emerald-700 disabled:opacity-50 text-white font-bold px-4 py-2.5 rounded-xl shadow-lg shadow-emerald-900/30 text-xs flex items-center gap-2 transition-all transform active:scale-95"
+            className="flex-1 sm:flex-initial min-h-[44px] bg-emerald-600 hover:bg-emerald-700 disabled:opacity-50 text-white font-bold px-4 py-2.5 rounded-xl shadow-lg shadow-emerald-900/30 text-xs flex items-center justify-center gap-2 transition-all transform active:scale-95 cursor-pointer"
           >
-            <Sparkles className="w-4 h-4" />
+            <Sparkles className="w-4 h-4 shrink-0" />
             <span>{optimizing ? t('optimizer.optimizing') : t('optimizer.optimizeRoute')}</span>
           </button>
 
           <button
             onClick={() => handleCalculateRoute(false)}
             disabled={loading || stops.length === 0}
-            className="bg-blue-600 hover:bg-blue-700 disabled:opacity-50 text-white font-semibold px-4 py-2.5 rounded-xl shadow-md text-xs flex items-center gap-2 transition-all"
+            className="flex-1 sm:flex-initial min-h-[44px] bg-blue-600 hover:bg-blue-700 disabled:opacity-50 text-white font-semibold px-4 py-2.5 rounded-xl shadow-md text-xs flex items-center justify-center gap-2 transition-all cursor-pointer"
           >
-            <Navigation className="w-4 h-4" />
+            <Navigation className="w-4 h-4 shrink-0" />
             <span>{t('optimizer.calculateRoute')}</span>
           </button>
         </div>
@@ -729,8 +729,8 @@ export function PhnomPenhOptimizerDashboard() {
           </p>
         </div>
 
-        {/* RIGHT PANEL: INTERACTIVE PHNOM PENH MAP (~60% on Desktop: 7/12 cols) */}
-        <div className="lg:col-span-7 h-[580px] lg:h-[720px] sticky top-20">
+        {/* RIGHT PANEL: INTERACTIVE PHNOM PENH MAP (Responsive height, sticky only on desktop) */}
+        <div className="lg:col-span-7 h-[340px] sm:h-[480px] lg:h-[720px] lg:sticky lg:top-20 w-full rounded-2xl overflow-hidden shadow-xs border border-slate-200">
           <PhnomPenhRouteMap
             origin={origin}
             stops={stops}

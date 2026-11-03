@@ -19,7 +19,24 @@
   font-display: swap;
 }
 
-/* Global Font Application as specified */
+/* Accessibility Font Scale Settings */
+html {
+  font-size: 17px; /* Default: Bigger, clearer, easier-to-read baseline text */
+}
+
+html.font-scale-sm {
+  font-size: 15px;
+}
+
+html.font-scale-md {
+  font-size: 17.5px; /* Recommended default */
+}
+
+html.font-scale-lg {
+  font-size: 20px; /* High-visibility accessibility */
+}
+
+/* Modern clean typography with Inter / Roboto & Khmer OS Battambang */
 html,
 body,
 button,
@@ -28,19 +45,28 @@ select,
 textarea,
 table,
 * {
-  font-family: 'Khmer OS Battambang', sans-serif;
+  font-family: 'Inter', 'Roboto', 'Khmer OS Battambang', 'Battambang', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
 }
 
 @layer base {
   body {
-    font-family: 'Khmer OS Battambang', sans-serif;
-    line-height: 1.65;
-    letter-spacing: 0.015em;
+    font-family: 'Inter', 'Roboto', 'Khmer OS Battambang', 'Battambang', sans-serif;
+    line-height: 1.6;
+    letter-spacing: 0.01em;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    color: #0F172A; /* High-contrast Dark Navy on light backgrounds */
   }
 
-  /* Ensure Khmer vowels, sub-consonants, and diacritics don't clip */
+  /* Headings with clear contrast & semibold/bold weight */
+  h1, h2, h3, h4, h5, h6 {
+    font-weight: 700;
+    line-height: 1.3;
+    letter-spacing: -0.015em;
+    color: #0F172A;
+  }
+
+  /* Form controls and touch targets with comfortable padding & size */
   button, input, select, textarea {
     line-height: 1.5;
   }

@@ -27,37 +27,37 @@ export function AnnouncementsManager() {
   return (
     <div className="space-y-6">
       <div>
-        <h2 className="text-xl font-bold text-slate-900">{t('notifications.broadcastTitle')}</h2>
-        <p className="text-xs text-slate-500">{t('notifications.broadcastSubtitle')}</p>
+        <h2 className="text-3xl sm:text-4xl font-black text-slate-900 tracking-tight">{t('notifications.broadcastTitle')}</h2>
+        <p className="text-base sm:text-lg text-slate-600 mt-1 font-medium">{t('notifications.broadcastSubtitle')}</p>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <div className="bg-white rounded-2xl border border-slate-200 shadow-xs p-6 lg:col-span-2">
+        <div className="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 sm:p-7 lg:col-span-2">
           {success && (
-            <div className="mb-4 bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs px-4 py-3 rounded-xl font-semibold">
-              {t('notifications.sentSuccess')}
+            <div className="mb-5 bg-emerald-50 border border-emerald-200 text-emerald-800 text-base px-4 py-3 rounded-xl font-bold flex items-center gap-2">
+              <span>✓</span> {t('notifications.sentSuccess')}
             </div>
           )}
 
-          <form onSubmit={handleSubmit} className="space-y-4 text-xs">
+          <form onSubmit={handleSubmit} className="space-y-5 text-base">
             <div>
-              <label className="block font-bold text-slate-700 mb-1">{t('notifications.announcementTitle')}</label>
+              <label className="block font-bold text-slate-800 mb-1.5 text-base">{t('notifications.announcementTitle')}</label>
               <input
                 type="text"
                 required
                 placeholder={language === 'km' ? 'ឧ. សេចក្តីជូនដំណឹងអំពីការពន្យារពេលដោយសារភ្លៀង' : 'e.g. Weather Delay Advisory'}
                 value={title}
                 onChange={e => setTitle(e.target.value)}
-                className="w-full bg-slate-50 border border-slate-200 rounded-lg px-3 py-2 text-slate-800"
+                className="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3 text-base text-slate-900 font-medium min-h-[48px] focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-600"
               />
             </div>
 
             <div>
-              <label className="block font-bold text-slate-700 mb-1">{t('notifications.targetAudience')}</label>
+              <label className="block font-bold text-slate-800 mb-1.5 text-base">{t('notifications.targetAudience')}</label>
               <select
                 value={roleTarget}
                 onChange={e => setRoleTarget(e.target.value as any)}
-                className="w-full bg-slate-50 border border-slate-200 rounded-lg px-3 py-2 text-slate-800"
+                className="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3 text-base text-slate-900 font-medium min-h-[48px] focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-600"
               >
                 <option value="all">{t('notifications.allUsers')}</option>
                 <option value="parent">{t('notifications.parentsOnly')}</option>
@@ -66,39 +66,39 @@ export function AnnouncementsManager() {
             </div>
 
             <div>
-              <label className="block font-bold text-slate-700 mb-1">{t('notifications.messageDetails')}</label>
+              <label className="block font-bold text-slate-800 mb-1.5 text-base">{t('notifications.messageDetails')}</label>
               <textarea
                 required
                 rows={4}
                 placeholder={language === 'km' ? 'សរសេរសារជូនដំណឹងនៅទីនេះ...' : 'Type your message here...'}
                 value={message}
                 onChange={e => setMessage(e.target.value)}
-                className="w-full bg-slate-50 border border-slate-200 rounded-lg px-3 py-2 text-slate-800"
+                className="w-full bg-slate-50 border border-slate-300 rounded-xl p-4 text-base text-slate-900 font-medium focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-600"
               />
             </div>
 
             <button
               type="submit"
-              className="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-5 py-2.5 rounded-xl shadow-md flex items-center gap-2"
+              className="bg-blue-600 hover:bg-blue-700 text-white font-bold text-base px-6 py-3.5 rounded-xl shadow-md flex items-center justify-center gap-2.5 transition-colors min-h-[48px] cursor-pointer"
             >
-              <Send className="w-4 h-4" /> {t('notifications.broadcastButton')}
+              <Send className="w-5 h-5" /> {t('notifications.broadcastButton')}
             </button>
           </form>
         </div>
 
         {/* Recent Broadcasts */}
-        <div className="bg-white rounded-2xl border border-slate-200 shadow-xs p-6 space-y-4">
-          <h3 className="font-bold text-slate-900 text-base flex items-center gap-2">
-            <Bell className="w-4 h-4 text-blue-600" /> {t('notifications.recentBroadcasts')}
+        <div className="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 sm:p-7 space-y-4">
+          <h3 className="font-bold text-slate-900 text-xl flex items-center gap-2.5">
+            <Bell className="w-5 h-5 text-blue-600" /> {t('notifications.recentBroadcasts')}
           </h3>
           <div className="space-y-3">
             {notifications.slice(0, 5).map((n, idx) => (
-              <div key={`${n.id}-${idx}`} className="p-3 bg-slate-50 rounded-xl border border-slate-100 text-xs space-y-1">
-                <div className="flex justify-between font-bold text-slate-900">
+              <div key={`${n.id}-${idx}`} className="p-4 bg-slate-50 rounded-xl border border-slate-100 text-sm space-y-1.5">
+                <div className="flex justify-between items-start font-bold text-slate-900 text-base">
                   <span>{n.title}</span>
-                  <span className="text-[10px] text-slate-400">{n.timestamp}</span>
+                  <span className="text-xs text-slate-500 font-medium shrink-0 ml-2">{n.timestamp}</span>
                 </div>
-                <p className="text-slate-600 leading-relaxed">{n.message}</p>
+                <p className="text-slate-700 leading-relaxed font-medium">{n.message}</p>
               </div>
             ))}
           </div>

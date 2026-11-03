@@ -4,6 +4,7 @@ import { AppProvider, useApp } from './context/AppContext';
 import { TopNavbar } from './components/common/TopNavbar';
 import { Sidebar } from './components/common/Sidebar';
 import { RoleSwitcherModal } from './components/auth/RoleSwitcherModal';
+import { GpsSystemFlowTestModal } from './components/common/GpsSystemFlowTestModal';
 
 // Admin views
 import { AdminDashboard } from './components/admin/AdminDashboard';
@@ -17,6 +18,7 @@ import { AnnouncementsManager } from './components/admin/AnnouncementsManager';
 import { UserManagement } from './components/admin/UserManagement';
 import { SettingsView } from './components/admin/SettingsView';
 import { LiveMapAdmin } from './components/admin/LiveMapAdmin';
+import { AttendanceManager } from './components/admin/AttendanceManager';
 
 // Driver views
 import { DriverDashboard } from './components/driver/DriverDashboard';
@@ -44,9 +46,30 @@ import { WelcomeAuthPage } from './components/auth/WelcomeAuthPage';
 import { PendingApprovalView } from './components/auth/PendingApprovalView';
 
 function MainLayout() {
-  const { currentUser, activeRole, language, t } = useApp();
+  const { currentUser, activeRole, setActiveRole, switchUser, users, language, t } = useApp();
   const [activeTab, setActiveTab] = useState(activeRole === 'admin' || activeRole === 'school_admin' ? 'optimizer' : 'dashboard');
   const [isRoleModalOpen, setIsRoleModalOpen] = useState(false);
+  const [isGpsTestModalOpen, setIsGpsTestModalOpen] = useState(false);
+  const [isMobileNavOpen, setIsMobileNavOpen] = useState(false);
+
+  const handleSwitchRoleFlow = (targetRole: 'admin' | 'parent' | 'driver') => {
+    if (targetRole === 'admin') {
+      const u = users.find(x => x.role === 'admin' || x.role === 'school_admin');
+      if (u) switchUser(u.id);
+      setActiveRole('school_admin');
+      setActiveTab('live-map');
+    } else if (targetRole === 'parent') {
+      const u = users.find(x => x.role === 'parent');
+      if (u) switchUser(u.id);
+      setActiveRole('parent');
+      setActiveTab('live-tracking');
+    } else {
+      const u = users.find(x => x.role === 'driver');
+      if (u) switchUser(u.id);
+      setActiveRole('driver');
+      setActiveTab('dashboard');
+    }
+  };
 
   // 1. Unauthenticated -> Show Welcome & Registration / Login
   if (!currentUser) {
@@ -57,8 +80,12 @@ function MainLayout() {
   if (currentUser.status === 'pending') {
     return (
       <div className="min-h-screen bg-slate-100 flex flex-col font-sans antialiased text-slate-900">
-        <TopNavbar onOpenRoleModal={() => setIsRoleModalOpen(true)} />
-        <main className="flex-1 p-4 md:p-8 flex items-center justify-center">
+        <TopNavbar 
+          onOpenRoleModal={() => setIsRoleModalOpen(true)} 
+          isMobileNavOpen={isMobileNavOpen}
+          onToggleMobileNav={() => setIsMobileNavOpen(prev => !prev)}
+        />
+        <main className="flex-1 p-3.5 sm:p-5 md:p-8 flex items-center justify-center">
           <PendingApprovalView />
         </main>
         <RoleSwitcherModal isOpen={isRoleModalOpen} onClose={() => setIsRoleModalOpen(false)} />
@@ -108,6 +135,7 @@ function MainLayout() {
         case 'routes': return <RoutesManager />;
         case 'trips': return <ReportsManager />;
         case 'reports': return <ReportsManager />;
+        case 'attendance': return <AttendanceManager />;
         case 'notifications': return <AnnouncementsManager />;
         case 'users': return <UserManagement />;
         case 'settings': return <SettingsView />;
@@ -146,17 +174,32 @@ function MainLayout() {
 
   return (
     <div className="min-h-screen bg-slate-100 flex flex-col font-sans antialiased text-slate-900">
-      <TopNavbar onOpenRoleModal={() => setIsRoleModalOpen(true)} />
+      <TopNavbar 
+        onOpenRoleModal={() => setIsRoleModalOpen(true)} 
+        onOpenGpsTestModal={() => setIsGpsTestModalOpen(true)}
+        isMobileNavOpen={isMobileNavOpen}
+        onToggleMobileNav={() => setIsMobileNavOpen(prev => !prev)}
+      />
       
-      <div className="flex flex-1">
-        <Sidebar activeTab={activeTab} setActiveTab={setActiveTab} />
+      <div className="flex flex-1 min-h-0 relative">
+        <Sidebar 
+          activeTab={activeTab} 
+          setActiveTab={setActiveTab} 
+          isOpenMobile={isMobileNavOpen}
+          onCloseMobile={() => setIsMobileNavOpen(false)}
+        />
         
-        <main className="flex-1 p-6 md:p-8 max-w-7xl mx-auto overflow-y-auto">
+        <main className="flex-1 p-3.5 sm:p-5 md:p-6 lg:p-8 w-full max-w-7xl mx-auto min-w-0 overflow-y-auto overflow-x-hidden">
           {renderContent()}
         </main>
       </div>
 
       <RoleSwitcherModal isOpen={isRoleModalOpen} onClose={() => setIsRoleModalOpen(false)} />
+      <GpsSystemFlowTestModal 
+        isOpen={isGpsTestModalOpen} 
+        onClose={() => setIsGpsTestModalOpen(false)} 
+        onSwitchRole={handleSwitchRoleFlow}
+      />
     </div>
   );
 }

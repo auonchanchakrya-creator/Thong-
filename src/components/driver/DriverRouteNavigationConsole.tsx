@@ -10,7 +10,7 @@ import {
   Phone, Clock, MapPin, ChevronRight, AlertTriangle, Wifi, WifiOff, 
   RefreshCw, Volume2, ShieldCheck, Play, RotateCcw, Check, UserX,
   Compass, ExternalLink, Settings, Sparkles, HelpCircle, Layers, QrCode, Printer,
-  AlertOctagon
+  AlertOctagon, Plus, Minus, Radio, Crosshair
 } from 'lucide-react';
 import { DriverQRScannerModal } from './DriverQRScannerModal';
 import { BusBoardingStickerQRModal } from '../common/BusBoardingStickerQRModal';
@@ -88,6 +88,9 @@ export function DriverRouteNavigationConsole({ onBackToDashboard }: DriverRouteN
   const [callingParent, setCallingParent] = useState<Student | null>(null);
   const [calculatedRoute, setCalculatedRoute] = useState<CalculatedRouteResult | null>(null);
   const [isCalculatingRoute, setIsCalculatingRoute] = useState(false);
+  const [mapType, setMapType] = useState<'street' | 'satellite'>('street');
+  const [isFollowingBus, setIsFollowingBus] = useState<boolean>(true);
+  const [currentZoom, setCurrentZoom] = useState<number>(14);
 
   // Map refs
   const mapContainerRef = useRef<HTMLDivElement>(null);
@@ -95,6 +98,8 @@ export function DriverRouteNavigationConsole({ onBackToDashboard }: DriverRouteN
   const busMarkerRef = useRef<L.Marker | null>(null);
   const routePolylineRef = useRef<L.Polyline | null>(null);
   const stopsLayerGroupRef = useRef<L.LayerGroup | null>(null);
+  const streetTileLayerRef = useRef<L.TileLayer | null>(null);
+  const satelliteTileLayerRef = useRef<L.TileLayer | null>(null);
 
   // Initialize Leaflet Map
   useEffect(() => {
@@ -104,15 +109,50 @@ export function DriverRouteNavigationConsole({ onBackToDashboard }: DriverRouteN
       const map = L.map(mapContainerRef.current, {
         center: busPosition,
         zoom: 14,
-        zoomControl: false
+        zoomControl: false,
+        zoomSnap: 0.25,
+        zoomDelta: 0.5,
+        wheelPxPerZoomLevel: 60,
+        wheelDebounceTime: 20,
+        touchZoom: true,
+        scrollWheelZoom: true,
+        doubleClickZoom: true,
+        boxZoom: true,
+        dragging: true,
+        fadeAnimation: true,
+        zoomAnimation: true,
+        markerZoomAnimation: true,
+        trackResize: true
       });
 
-      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      // Gracefully pause auto-follow on manual pan or pinch zoom
+      map.on('dragstart', () => {
+        setIsFollowingBus(false);
+      });
+
+      map.on('zoomstart', (e: any) => {
+        if (e.originalEvent) {
+          setIsFollowingBus(false);
+        }
+      });
+
+      map.on('zoomend', () => {
+        setCurrentZoom(Math.round(map.getZoom() * 10) / 10);
+      });
+
+      const streetLayer = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         attribution: '&copy; OpenStreetMap contributors',
         maxZoom: 19
-      }).addTo(map);
+      });
 
-      L.control.zoom({ position: 'topright' }).addTo(map);
+      const satelliteLayer = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+        attribution: '&copy; Esri, Maxar',
+        maxZoom: 19
+      });
+
+      streetLayer.addTo(map);
+      streetTileLayerRef.current = streetLayer;
+      satelliteTileLayerRef.current = satelliteLayer;
 
       stopsLayerGroupRef.current = L.layerGroup().addTo(map);
       mapInstanceRef.current = map;
@@ -125,6 +165,20 @@ export function DriverRouteNavigationConsole({ onBackToDashboard }: DriverRouteN
       }
     };
   }, []);
+
+  // Handle Street / Satellite layer toggle without resetting position
+  useEffect(() => {
+    const map = mapInstanceRef.current;
+    if (!map || !streetTileLayerRef.current || !satelliteTileLayerRef.current) return;
+
+    if (mapType === 'satellite') {
+      if (map.hasLayer(streetTileLayerRef.current)) map.removeLayer(streetTileLayerRef.current);
+      satelliteTileLayerRef.current.addTo(map);
+    } else {
+      if (map.hasLayer(satelliteTileLayerRef.current)) map.removeLayer(satelliteTileLayerRef.current);
+      streetTileLayerRef.current.addTo(map);
+    }
+  }, [mapType]);
 
   // Calculate and draw real road route between bus and student stops
   useEffect(() => {
@@ -332,13 +386,36 @@ export function DriverRouteNavigationConsole({ onBackToDashboard }: DriverRouteN
         }).addTo(map);
       }
     }
-  }, [busPosition, assignedStudents, activeStudentId, calculatedRoute, busSpeed]);
+
+    // 4. Follow bus smoothly if enabled without altering user zoom level
+    if (isFollowingBus && busPosition) {
+      map.panTo(busPosition, { animate: true, duration: 0.8 });
+    }
+  }, [busPosition, assignedStudents, activeStudentId, calculatedRoute, busSpeed, isFollowingBus]);
 
   // Recenter map on bus
   const handleRecenterBus = () => {
     if (mapInstanceRef.current) {
       mapInstanceRef.current.panTo(busPosition, { animate: true, duration: 0.6 });
+      setIsFollowingBus(true);
     }
+  };
+
+  const handleZoomIn = () => {
+    mapInstanceRef.current?.zoomIn(0.5);
+  };
+
+  const handleZoomOut = () => {
+    mapInstanceRef.current?.zoomOut(0.5);
+  };
+
+  const handleResetZoom = () => {
+    if (!mapInstanceRef.current) return;
+    const points: [number, number][] = [busPosition];
+    assignedStudents.forEach(s => points.push([s.pickupLat, s.pickupLng]));
+    points.push([11.5683, 104.9179]); // School destination
+
+    mapInstanceRef.current.fitBounds(L.latLngBounds(points), { padding: [50, 50], maxZoom: 15, animate: true });
   };
 
   // Simulate Drive forward along path to next stop
@@ -623,36 +700,128 @@ export function DriverRouteNavigationConsole({ onBackToDashboard }: DriverRouteN
         <div className="flex-1 relative min-h-[300px]">
           <div ref={mapContainerRef} className="w-full h-full z-0" />
 
-          {/* Floating Map Controls */}
-          <div className="absolute bottom-4 right-4 z-10 flex flex-col gap-2">
+          {/* Top Left: Badges, Map Tile Mode & Follow Bus Toggle */}
+          <div className="absolute top-3 left-3 z-10 flex flex-wrap items-center gap-2 max-w-[90%]">
+            {/* Quick Route Summary Badge */}
+            <div className="bg-slate-900/95 backdrop-blur-md border border-slate-700/80 px-3.5 py-1.5 rounded-xl shadow-xl flex items-center gap-2.5 text-xs">
+              <div className="flex items-center gap-1.5">
+                <BusIcon className="w-3.5 h-3.5 text-amber-400" />
+                <span className="font-extrabold text-white">{bus?.busNumber || 'Bus 03'}</span>
+              </div>
+              <span className="text-slate-600">•</span>
+              <div className="text-slate-300 font-medium">
+                {formatNumber(pickedUpCount)}/{formatNumber(assignedStudents.length)} {language === 'km' ? 'បានឡើង' : 'Picked Up'}
+              </div>
+            </div>
+
+            {/* Street / Satellite Toggle */}
+            <div className="flex items-center bg-slate-900/95 backdrop-blur-md p-1 rounded-xl shadow-xl border border-slate-700/80 text-xs font-bold">
+              <button
+                onClick={() => setMapType('street')}
+                className={`px-2.5 py-1 rounded-lg transition-all flex items-center gap-1 min-h-[34px] cursor-pointer ${
+                  mapType === 'street' 
+                    ? 'bg-blue-600 text-white shadow-xs' 
+                    : 'text-slate-300 hover:text-white hover:bg-slate-800'
+                }`}
+              >
+                <Compass className="w-3.5 h-3.5" />
+                <span>{language === 'km' ? 'ផ្លូវ' : 'Street'}</span>
+              </button>
+
+              <button
+                onClick={() => setMapType('satellite')}
+                className={`px-2.5 py-1 rounded-lg transition-all flex items-center gap-1 min-h-[34px] cursor-pointer ${
+                  mapType === 'satellite' 
+                    ? 'bg-blue-600 text-white shadow-xs' 
+                    : 'text-slate-300 hover:text-white hover:bg-slate-800'
+                }`}
+              >
+                <Layers className="w-3.5 h-3.5" />
+                <span>{language === 'km' ? 'ផ្កាយរណប' : 'Satellite'}</span>
+              </button>
+            </div>
+
+            {/* Follow Bus Mode Toggle */}
             <button
-              onClick={handleRecenterBus}
-              className="w-11 h-11 rounded-2xl bg-slate-900/90 text-white hover:bg-slate-800 flex items-center justify-center shadow-xl border border-slate-700 transition-all active:scale-95"
-              title="Recenter on Bus"
+              onClick={() => {
+                const nextState = !isFollowingBus;
+                setIsFollowingBus(nextState);
+                if (nextState) handleRecenterBus();
+              }}
+              className={`px-3 py-1.5 rounded-xl transition-all flex items-center gap-2 min-h-[36px] text-xs font-bold border cursor-pointer shadow-xl backdrop-blur-md ${
+                isFollowingBus 
+                  ? 'bg-emerald-600 text-white border-emerald-500 ring-2 ring-emerald-400/40' 
+                  : 'bg-slate-900/95 text-slate-300 hover:text-white border-slate-700 hover:bg-slate-800'
+              }`}
+              title="Keep map centered on bus location"
             >
-              <Compass className="w-5 h-5 text-blue-400" />
-            </button>
-            <button
-              onClick={handleSimulateDrive}
-              disabled={isSimulatingDrive}
-              className="px-3.5 py-2.5 rounded-2xl bg-blue-600 hover:bg-blue-500 text-white flex items-center gap-1.5 shadow-xl text-xs font-bold transition-all active:scale-95 disabled:opacity-50"
-              title="Simulate driving toward next stop"
-            >
-              <Play className="w-3.5 h-3.5 fill-current" />
-              <span>{language === 'km' ? 'បើកបន្ត' : 'Drive Demo'}</span>
+              <span className={`w-2 h-2 rounded-full ${isFollowingBus ? 'bg-white animate-ping' : 'bg-slate-500'}`} />
+              <Radio className={`w-3.5 h-3.5 ${isFollowingBus ? 'text-white' : 'text-slate-400'}`} />
+              <span>{language === 'km' ? (isFollowingBus ? 'កំពុងតាមឡាន' : 'តាមដានឡាន') : (isFollowingBus ? 'Following Bus' : 'Follow Bus')}</span>
             </button>
           </div>
 
-          {/* Quick Route Summary Badge */}
-          <div className="absolute top-4 left-4 z-10 bg-slate-900/90 backdrop-blur-md border border-slate-700/80 px-3.5 py-2 rounded-2xl shadow-xl flex items-center gap-3 text-xs">
-            <div className="flex items-center gap-1.5">
-              <BusIcon className="w-4 h-4 text-amber-400" />
-              <span className="font-extrabold text-white">{bus?.busNumber || 'Bus 03'}</span>
+          {/* Top Right: Accessible Smooth Zoom Controls */}
+          <div className="absolute top-3 right-3 z-10 flex flex-col items-center bg-slate-900/95 backdrop-blur-md p-1.5 rounded-2xl shadow-2xl border border-slate-700/90 gap-1.5">
+            {/* Zoom In */}
+            <button
+              onClick={handleZoomIn}
+              className="w-11 h-11 rounded-xl hover:bg-slate-800 text-slate-100 flex items-center justify-center transition-all cursor-pointer active:scale-90"
+              title={language === 'km' ? 'ពង្រីកផែនទី (+)' : 'Zoom In (+)'}
+              aria-label="Zoom in"
+            >
+              <Plus className="w-5 h-5 text-slate-100" />
+            </button>
+
+            {/* Current Zoom Indicator */}
+            <div className="px-2 py-0.5 rounded-md bg-slate-800 text-[11px] font-extrabold text-slate-300 select-none">
+              {currentZoom}x
             </div>
-            <span className="text-slate-600">•</span>
-            <div className="text-slate-300">
-              {formatNumber(pickedUpCount)}/{formatNumber(assignedStudents.length)} {language === 'km' ? 'បានឡើង' : 'Picked Up'}
-            </div>
+
+            {/* Zoom Out */}
+            <button
+              onClick={handleZoomOut}
+              className="w-11 h-11 rounded-xl hover:bg-slate-800 text-slate-100 flex items-center justify-center transition-all cursor-pointer active:scale-90"
+              title={language === 'km' ? 'បង្រួមផែនទី (−)' : 'Zoom Out (−)'}
+              aria-label="Zoom out"
+            >
+              <Minus className="w-5 h-5 text-slate-100" />
+            </button>
+
+            <div className="w-full h-px bg-slate-800 my-0.5" />
+
+            {/* Reset Zoom / Fit Route */}
+            <button
+              onClick={handleResetZoom}
+              className="w-11 h-11 rounded-xl hover:bg-slate-800 text-slate-300 hover:text-blue-400 flex items-center justify-center transition-all cursor-pointer active:scale-90"
+              title={language === 'km' ? 'កំណត់ទិដ្ឋភាពឡើងវិញ' : 'Reset Zoom & View All'}
+              aria-label="Reset zoom"
+            >
+              <RotateCcw className="w-4 h-4 text-slate-300" />
+            </button>
+
+            {/* Recenter on Bus */}
+            <button
+              onClick={handleRecenterBus}
+              className="w-11 h-11 rounded-xl bg-blue-600/30 hover:bg-blue-600/50 text-blue-400 flex items-center justify-center transition-all cursor-pointer active:scale-90"
+              title={language === 'km' ? 'ចំកណ្តាលឡាន' : 'Center on Bus'}
+              aria-label="Center on bus"
+            >
+              <Crosshair className="w-5 h-5 text-blue-400" />
+            </button>
+          </div>
+
+          {/* Bottom Right: Simulate Drive Helper */}
+          <div className="absolute bottom-4 right-4 z-10">
+            <button
+              onClick={handleSimulateDrive}
+              disabled={isSimulatingDrive}
+              className="px-4 py-2.5 rounded-2xl bg-blue-600 hover:bg-blue-500 text-white flex items-center gap-2 shadow-2xl text-xs font-bold transition-all active:scale-95 disabled:opacity-50 cursor-pointer"
+              title="Simulate driving toward next stop"
+            >
+              <Play className="w-3.5 h-3.5 fill-current" />
+              <span>{language === 'km' ? 'បើកបន្ត (តេស្ត)' : 'Drive Demo'}</span>
+            </button>
           </div>
         </div>
 

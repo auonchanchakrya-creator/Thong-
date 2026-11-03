@@ -3,7 +3,7 @@ import L from 'leaflet';
 import { GeoLocation, CalculatedRouteResult } from '../../services/routingService';
 import { useApp } from '../../context/AppContext';
 import { 
-  Maximize2, RotateCcw, MapPin, Search, Plus, Trash2, 
+  Maximize2, RotateCcw, MapPin, Search, Plus, Minus, Trash2, 
   Layers, Check, School, User, Navigation 
 } from 'lucide-react';
 
@@ -48,7 +48,20 @@ export function PhnomPenhRouteMap({
     if (!mapInstanceRef.current) {
       const map = L.map(mapContainerRef.current, {
         zoomControl: false,
-        attributionControl: false
+        attributionControl: false,
+        zoomSnap: 0.25,
+        zoomDelta: 0.5,
+        wheelPxPerZoomLevel: 60,
+        wheelDebounceTime: 20,
+        touchZoom: true,
+        scrollWheelZoom: true,
+        doubleClickZoom: true,
+        boxZoom: true,
+        dragging: true,
+        fadeAnimation: true,
+        zoomAnimation: true,
+        markerZoomAnimation: true,
+        trackResize: true
       }).setView([11.5564, 104.9282], 13);
 
       L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -56,8 +69,7 @@ export function PhnomPenhRouteMap({
         maxZoom: 19
       }).addTo(map);
 
-      // Zoom control in top right
-      L.control.zoom({ position: 'topright' }).addTo(map);
+      // Custom accessible controls are rendered in toolbar
 
       // Layer group for markers
       const markerGroup = L.layerGroup().addTo(map);
@@ -72,6 +84,19 @@ export function PhnomPenhRouteMap({
       });
 
       mapInstanceRef.current = map;
+
+      // Invalidate map size on container resize
+      if (typeof ResizeObserver !== 'undefined' && mapContainerRef.current) {
+        const resizeObserver = new ResizeObserver(() => {
+          map.invalidateSize();
+        });
+        resizeObserver.observe(mapContainerRef.current);
+        return () => {
+          resizeObserver.disconnect();
+          map.remove();
+          mapInstanceRef.current = null;
+        };
+      }
     }
 
     return () => {
@@ -103,6 +128,14 @@ export function PhnomPenhRouteMap({
     if (map) {
       map.setView([11.5564, 104.9282], 13);
     }
+  };
+
+  const handleZoomIn = () => {
+    mapInstanceRef.current?.zoomIn(0.5);
+  };
+
+  const handleZoomOut = () => {
+    mapInstanceRef.current?.zoomOut(0.5);
   };
 
   // Draw Route Polylines and Update Markers
@@ -289,9 +322,23 @@ export function PhnomPenhRouteMap({
 
         <div className="flex items-center gap-1.5 pointer-events-auto">
           <button
+            onClick={handleZoomIn}
+            title={language === 'km' ? 'ពង្រីក (+)' : 'Zoom In (+)'}
+            className="bg-white hover:bg-slate-50 text-slate-700 w-8 h-8 rounded-xl shadow-md border border-slate-200/80 flex items-center justify-center transition-colors cursor-pointer"
+          >
+            <Plus className="w-4 h-4 text-slate-700" />
+          </button>
+          <button
+            onClick={handleZoomOut}
+            title={language === 'km' ? 'បង្រួម (−)' : 'Zoom Out (−)'}
+            className="bg-white hover:bg-slate-50 text-slate-700 w-8 h-8 rounded-xl shadow-md border border-slate-200/80 flex items-center justify-center transition-colors cursor-pointer"
+          >
+            <Minus className="w-4 h-4 text-slate-700" />
+          </button>
+          <button
             onClick={fitAllStops}
             title={t('optimizer.fitMap')}
-            className="bg-white hover:bg-slate-50 text-slate-700 p-2 rounded-xl shadow-md border border-slate-200/80 text-xs font-semibold flex items-center gap-1.5 transition-colors"
+            className="bg-white hover:bg-slate-50 text-slate-700 px-2.5 py-1.5 rounded-xl shadow-md border border-slate-200/80 text-xs font-semibold flex items-center gap-1.5 transition-colors cursor-pointer"
           >
             <Maximize2 className="w-3.5 h-3.5 text-blue-600" />
             <span className="hidden sm:inline">{t('optimizer.fitMap')}</span>
@@ -299,7 +346,7 @@ export function PhnomPenhRouteMap({
           <button
             onClick={resetToPhnomPenhCenter}
             title="Reset to Phnom Penh center"
-            className="bg-white hover:bg-slate-50 text-slate-700 p-2 rounded-xl shadow-md border border-slate-200/80 text-xs font-semibold transition-colors"
+            className="bg-white hover:bg-slate-50 text-slate-700 w-8 h-8 rounded-xl shadow-md border border-slate-200/80 flex items-center justify-center transition-colors cursor-pointer"
           >
             <RotateCcw className="w-3.5 h-3.5 text-slate-600" />
           </button>

@@ -129,6 +129,10 @@ interface AppContextType {
   t: (key: string, params?: Record<string, string | number>) => string;
   localize: (enValue?: string, kmValue?: string) => string;
   formatNumber: (num: number) => string;
+
+  // Accessibility & Typography
+  fontSize: 'small' | 'medium' | 'large';
+  setFontSize: (size: 'small' | 'medium' | 'large') => void;
 }
 
 const AppContext = createContext<AppContextType | undefined>(undefined);
@@ -141,6 +145,34 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     }
     return id === 'usr-parent-2' ? '/images/khmer_parent2.svg' : '/images/khmer_parent.svg';
   };
+
+  const [fontSize, setFontSizeState] = useState<'small' | 'medium' | 'large'>(() => {
+    if (typeof window !== 'undefined') {
+      const saved = localStorage.getItem('schoolroutai_font_size');
+      if (saved === 'small' || saved === 'medium' || saved === 'large') return saved;
+    }
+    return 'medium';
+  });
+
+  const setFontSize = (size: 'small' | 'medium' | 'large') => {
+    setFontSizeState(size);
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('schoolroutai_font_size', size);
+      document.documentElement.classList.remove('font-scale-sm', 'font-scale-md', 'font-scale-lg');
+      if (size === 'small') document.documentElement.classList.add('font-scale-sm');
+      else if (size === 'large') document.documentElement.classList.add('font-scale-lg');
+      else document.documentElement.classList.add('font-scale-md');
+    }
+  };
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      document.documentElement.classList.remove('font-scale-sm', 'font-scale-md', 'font-scale-lg');
+      if (fontSize === 'small') document.documentElement.classList.add('font-scale-sm');
+      else if (fontSize === 'large') document.documentElement.classList.add('font-scale-lg');
+      else document.documentElement.classList.add('font-scale-md');
+    }
+  }, [fontSize]);
 
   const [users, setUsers] = useState<User[]>(() => {
     try {
@@ -1244,7 +1276,8 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
       reportBusBreakdown, assignReplacementBus, confirmStudentTransfer, completeAllStudentTransfersAndResume,
       activeEmergencyTrip, activeEmergencyIncident,
       askGeminiAssistant,
-      language, setLanguage, t, localize, formatNumber
+      language, setLanguage, t, localize, formatNumber,
+      fontSize, setFontSize
     }}>
       {children}
     </AppContext.Provider>

@@ -39,11 +39,11 @@ export function RoleSwitcherModal({ isOpen, onClose }: RoleSwitcherModalProps) {
   };
 
   return (
-    <div className="fixed inset-0 bg-slate-900/60 backdrop-blur-xs z-50 flex items-center justify-center p-4 animate-in fade-in duration-200">
-      <div className="bg-white rounded-2xl shadow-2xl border border-slate-200 w-full max-w-lg overflow-hidden">
-        <div className="px-6 py-4 border-b border-slate-100 flex items-center justify-between bg-slate-50">
+    <div className="fixed inset-0 bg-slate-900/60 backdrop-blur-xs z-50 flex items-center justify-center p-3 sm:p-4 animate-in fade-in duration-200">
+      <div className="bg-white rounded-2xl shadow-2xl border border-slate-200 w-full max-w-lg overflow-hidden flex flex-col max-h-[90vh]">
+        <div className="px-4 sm:px-6 py-3.5 sm:py-4 border-b border-slate-100 flex items-center justify-between bg-slate-50 shrink-0">
           <div className="flex items-center gap-2">
-            <div className="w-8 h-8 rounded-lg bg-blue-100 text-blue-600 flex items-center justify-center">
+            <div className="w-8 h-8 rounded-lg bg-blue-100 text-blue-600 flex items-center justify-center shrink-0">
               <Shield className="w-4 h-4" />
             </div>
             <div>
@@ -51,12 +51,12 @@ export function RoleSwitcherModal({ isOpen, onClose }: RoleSwitcherModalProps) {
               <p className="text-xs text-slate-500">{t('auth.roleModalSubtitle')}</p>
             </div>
           </div>
-          <button onClick={onClose} className="p-1 rounded-lg text-slate-400 hover:text-slate-600 hover:bg-slate-200/55 transition-colors">
+          <button onClick={onClose} className="p-2 -mr-1 rounded-lg text-slate-400 hover:text-slate-600 hover:bg-slate-200/55 transition-colors min-h-[44px] min-w-[44px] flex items-center justify-center cursor-pointer">
             <X className="w-5 h-5" />
           </button>
         </div>
 
-        <div className="p-6 space-y-6">
+        <div className="p-4 sm:p-6 space-y-6 overflow-y-auto flex-1">
           <div>
             <label className="text-xs font-bold uppercase tracking-wider text-slate-400 mb-3 block">
               {t('auth.preconfiguredAccounts')}
